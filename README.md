@@ -214,7 +214,7 @@
 
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
       <p>© PROXIMITY IDLE INC. ALL RIGHTS RESERVED.</p>
-      <p class="mt-2 md:mt-0">ARTWORK BY ANDREW CHEN</p>
+      <p class="mt-2 md:mt-0">ARTWORK BY SHAOQI SU </p>
     </footer>
 
   </div>
@@ -256,9 +256,9 @@
       },
       {
         id: "04",
-        name: "參與者 D (待定)",
+        name: "陳Ｏ騏",
         role: "代理呼吸員 04 號",
-        target: "代理個案 04 號",
+        target: "陳Ｏ騏 (本體)",
         anxiety: "95.0% (準備中)",
         birthDate: "2005-01-01",
         imageUrl: "",

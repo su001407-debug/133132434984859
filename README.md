@@ -160,9 +160,13 @@
               </div>
             </div>
 
-            <!-- 左右對比文字標籤 -->
-            <span class="absolute bottom-2.5 left-2.5 text-[9px] font-mono text-emerald-400 bg-black/80 backdrop-blur px-1.5 py-0.5 rounded border border-emerald-500/30 z-20 pointer-events-none">本體 PRINCIPAL</span>
-            <span class="absolute bottom-2.5 right-2.5 text-[9px] font-mono text-gray-400 bg-black/80 backdrop-blur px-1.5 py-0.5 rounded border border-gray-800 z-20 pointer-events-none">裝置 PROXY DEVICE</span>
+            <!-- 左右動態變色對比標籤 -->
+            <span id="badge-principal" class="absolute bottom-2.5 left-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-emerald-400 border-emerald-500/40">
+              本體 PRINCIPAL
+            </span>
+            <span id="badge-device" class="absolute bottom-2.5 right-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-gray-500 border-gray-800">
+              裝置 PROXY DEVICE
+            </span>
           </div>
 
           <div class="md:col-span-2 bg-gray-950/80 rounded-lg p-5 border border-gray-800/80 space-y-4 font-mono text-xs overflow-hidden">
@@ -243,9 +247,6 @@
   </div>
 
   <script>
-    // PARTICIPANTS 資料庫
-    // imageUrl: 本體照片
-    // deviceImageUrl: 代理裝置照片 (未設定時自動帶入同張照片)
     const PARTICIPANTS = [
       {
         id: "01",
@@ -255,7 +256,7 @@
         anxiety: "87.4% (極高)",
         birthDate: "2005-02-26",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg",
-        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg", // 可替換為裝置照片網址
+        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg",
         audioUrl: "breath01.mp3",
         statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我需要一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
       },
@@ -267,7 +268,7 @@
         anxiety: "91.2% (極高)",
         birthDate: "2005-07-10",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg",
-        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-9afd07b5-083e-4c4d-a816-f5d9519e8f92.jpg", // 可替換為裝置照片網址
+        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-9afd07b5-083e-4c4d-a816-f5d9519e8f92.jpg",
         audioUrl: "breath02.mp3",
         statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我需要這台機器幫我把『休息』當成一項公事來認真執行。"
       },
@@ -279,7 +280,7 @@
         anxiety: "79.8% (高)",
         birthDate: "2005-06-09",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg",
-        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg", // 可替換為裝置照片網址
+        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg",
         audioUrl: "breath03.mp3",
         statement: "休假對我來說不是放鬆，而是一場審判。躺在床上滑手機的每一分鐘，都在盤算著自己少做了多少事。如果一定要有人在那裡放空，那就讓這顆塑膠薄膜包覆的人頭替我坐牢吧。"
       },
@@ -299,7 +300,6 @@
 
     let breathTimer = null;
 
-    // 4 個數字高速動態跳動與 0.5 秒凍結停滯邏輯
     function startOutputFluctuationWithPause() {
       const headerOutputEl = document.getElementById('header-output-counter');
       const detailOutputEl = document.getElementById('detail-output-counter');
@@ -353,7 +353,7 @@
       }, 4000);
     }
 
-    // 左右對比拉條事件監聽
+    // 左右對比拉條事件與文字相對動態變色邏輯
     function initComparisonSlider() {
       const slider = document.getElementById('comparison-slider');
       const clipWrapper = document.getElementById('slider-clip-wrapper');
@@ -361,9 +361,23 @@
       const principalImg = document.getElementById('detail-principal-img');
       const sliderContainer = document.getElementById('detail-slider-container');
 
+      const badgePrincipal = document.getElementById('badge-principal');
+      const badgeDevice = document.getElementById('badge-device');
+
       function updateSlider(val) {
         clipWrapper.style.width = `${val}%`;
         sliderLine.style.left = `${val}%`;
+
+        // 根據拉條數值 (0~100) 相對變色高亮標籤
+        if (val >= 50) {
+          // 本體占比較高 -> 本體亮綠，裝置變暗
+          badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)]";
+          badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-gray-500 border-gray-800";
+        } else {
+          // 裝置占比較高 -> 裝置亮綠，本體變暗
+          badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-gray-500 border-gray-800";
+          badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)]";
+        }
       }
 
       function updateImgDimensions() {
@@ -452,10 +466,14 @@
       principalImg.src = pUrl;
       deviceImg.src = dUrl;
 
-      // 重設拉桿到中間 (50%)
+      // 重設拉桿至 50%
       document.getElementById('comparison-slider').value = 50;
       document.getElementById('slider-clip-wrapper').style.width = '50%';
       document.getElementById('slider-line').style.left = '50%';
+
+      // 預設標籤狀態
+      document.getElementById('badge-principal').className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)]";
+      document.getElementById('badge-device').className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-gray-500 border-gray-800";
 
       const audio = document.getElementById('breathing-audio');
       const source = document.getElementById('audio-source');

@@ -165,6 +165,13 @@
           <!-- 左右拖拉圖片對比器 (Before / After Split Slider) -->
           <div id="detail-slider-container" class="aspect-[3/4] bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative select-none group">
             
+            <!-- 系統註解說明標籤（解釋髮型與去個人化） -->
+            <div class="absolute top-2.5 left-2.5 right-2.5 z-20 pointer-events-none">
+              <p class="text-[9px] font-mono text-gray-400 bg-black/80 backdrop-blur px-2 py-1 rounded border border-gray-800/80 leading-normal">
+                [SYSTEM NOTE] 個人特徵（髮型/皮肉）已於代理化過程中剝離，僅保留骨架結構與氣動呼吸腔體。
+              </p>
+            </div>
+
             <!-- 底圖：代理裝置照片 (PROXY DEVICE) -->
             <img id="detail-device-img" src="" alt="Proxy Device" class="w-full h-full object-cover grayscale contrast-125 absolute inset-0 pointer-events-none">
             
@@ -183,8 +190,8 @@
               </div>
             </div>
 
-            <!-- 左右動態螢光綠對比標籤 -->
-            <span id="badge-principal" class="absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-active">
+            <!-- 左右動態對比標籤（居中 50% 時都不亮） -->
+            <span id="badge-principal" class="absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive">
               本體 PRINCIPAL
             </span>
             <span id="badge-device" class="absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive">
@@ -379,7 +386,7 @@
       }, 4000);
     }
 
-    // 3. 左右圖片對比拉條與標籤動態高亮優化
+    // 3. 左右圖片對比拉條與標籤動態高亮（含中間不亮區）
     function updateImgDimensions() {
       const sliderContainer = document.getElementById('detail-slider-container');
       const principalImg = document.getElementById('detail-principal-img');
@@ -402,13 +409,17 @@
         clipWrapper.style.width = `${val}%`;
         sliderLine.style.left = `${val}%`;
 
-        // 滑動過半時切換螢光綠高亮
-        if (val >= 50) {
+        // 數值判斷：> 55 高亮本體，< 45 高亮裝置，45~55 居中時兩者都不亮
+        if (val > 55) {
           badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-active";
           badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive";
-        } else {
+        } else if (val < 45) {
           badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive";
           badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-active";
+        } else {
+          // 45 ~ 55 中間區域：兩者皆不亮
+          badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive";
+          badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive";
         }
       }
 
@@ -498,8 +509,8 @@
       document.getElementById('slider-clip-wrapper').style.width = '50%';
       document.getElementById('slider-line').style.left = '50%';
 
-      // 預設高亮「本體」
-      document.getElementById('badge-principal').className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-active";
+      // 預設 50% 時兩者皆不亮
+      document.getElementById('badge-principal').className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive";
       document.getElementById('badge-device').className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive";
 
       const audio = document.getElementById('breathing-audio');

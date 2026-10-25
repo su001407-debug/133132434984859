@@ -221,7 +221,7 @@
     <!-- 頁尾 -->
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
       <p>© PROXIMITY IDLE INC. ALL RIGHTS RESERVED.</p>
-      <p class="mt-2 md:mt-0">ARTWORK BY ShaoQi SU </p>
+      <p class="mt-2 md:mt-0">ARTWORK BY SHAOQI SU </p>
     </footer>
 
   </div>
@@ -236,7 +236,7 @@
         target: "張簡庭 (本體)",
         anxiety: "87.4% (極高)",
         birthDate: "2000-05-14",
-        imageUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600",
+        imageUrl: "https://load.tw/StbPj4",
         audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
         statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我需要一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
       },

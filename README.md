@@ -34,7 +34,6 @@
       box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.9), 0 0 24px 0 rgba(16, 185, 129, 0.08);
     }
 
-    /* 獨自保留卡片按鈕為極光螢光綠 */
     .btn-neon {
       background-color: #39FF14;
       color: #000000;
@@ -57,7 +56,6 @@
       box-shadow: inset 0 0 12px rgba(239, 68, 68, 0.12), 0 0 8px rgba(239, 68, 68, 0.2);
     }
 
-    /* 呼吸計數器跳動動畫（翡翠綠） */
     @keyframes pulse-emerald {
       0%, 100% { color: #10b981; opacity: 1; }
       50% { color: #6ee7b7; opacity: 0.7; }
@@ -69,7 +67,6 @@
 </head>
 <body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-emerald-500 selection:text-black">
 
-  <!-- 頂部氛圍光學光暈 -->
   <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-emerald-950/20 blur-[130px] pointer-events-none rounded-full"></div>
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
@@ -86,7 +83,6 @@
         <p class="text-xs text-gray-500 tracking-wider mt-0.5">當代個人怠工檔案與系統診斷報告 Archive Portal</p>
       </div>
 
-      <!-- 動態跳動但永遠為零的產出監控 -->
       <div class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 w-full md:w-auto flex justify-between md:block">
         <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
         <span id="header-output-counter" class="text-emerald-400 font-bold transition-all duration-300">0.000 KG/H</span>
@@ -130,7 +126,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          <!-- 照片區域 (3:4 比例) -->
           <div id="detail-image-container" class="aspect-[3/4] bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group flex items-center justify-center">
             <div id="detail-placeholder" class="hidden w-full h-full flex flex-col items-center justify-center bg-gray-900/50 text-gray-600 space-y-2 p-4 text-center">
               <svg class="w-12 h-12 stroke-emerald-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,7 +148,6 @@
                 <span id="detail-anxiety" class="font-bold text-red-400">---</span>
               </div>
               
-              <!-- 呼吸計數器區塊 -->
               <div class="sm:col-span-2 bg-emerald-950/20 p-3.5 rounded border border-emerald-500/20 w-full overflow-hidden">
                 <div class="flex justify-between items-center mb-1.5 gap-2">
                   <span class="text-emerald-400 text-[10px] font-bold tracking-wider break-words leading-tight">
@@ -213,7 +207,6 @@
       </article>
     </main>
 
-    <!-- 頁尾 -->
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
       <p>© SHAOQI SU. ALL RIGHTS RESERVED.</p>
       <p class="mt-2 md:mt-0">ARTWORK BY SHAOQI SU</p>
@@ -271,16 +264,14 @@
 
     let breathTimer = null;
 
-    // 「永遠為零」的微幅跳動產出監控邏輯
     function startOutputFluctuation() {
       const headerOutputEl = document.getElementById('header-output-counter');
       const detailOutputEl = document.getElementById('detail-output-counter');
 
       setInterval(() => {
-        // 80% 的機率保持為純零 "0.000"，20% 的機率跳出 0.001 ~ 0.009 的極微小數值後立刻回歸零
         const randomVal = Math.random() < 0.8 ? "0.000" : `0.00${Math.floor(Math.random() * 9) + 1}`;
-        
-        if (headerOutputEl) headerOutputEl.innerText = `${randomVal} KG/H`; if (detailOutputEl) detailOutputEl.innerText = `${randomVal} KG/H (NULL)`;
+        if (headerOutputEl) headerOutputEl.innerText = `${randomVal} KG/H`;
+        if (detailOutputEl) detailOutputEl.innerText = `${randomVal} KG/H (NULL)`;
       }, 800);
     }
 
@@ -310,7 +301,6 @@
         const imgSrc = p.imageUrl ? `${p.imageUrl}?v=${Date.now()}` : '';
         return `
         <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl overflow-hidden cursor-pointer flex flex-col justify-between relative group">
-          <!-- 滿版 3:4 照片容器 -->
           <div class="aspect-[3/4] w-full bg-gray-950 relative overflow-hidden flex items-center justify-center">
             ${p.imageUrl ? `<img src="${imgSrc}" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500">` : `
               <div class="flex flex-col items-center space-y-2 text-gray-700">
@@ -321,21 +311,17 @@
               </div>
             `}
             
-            <!-- 漸層黑色遮罩 -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 
-            <!-- 卡片頂部白色編號（無邊框） -->
             <div class="absolute top-3 left-3">
               <span class="text-xs font-mono text-white tracking-wider font-bold">CASE #${p.id}</span>
             </div>
 
-            <!-- 卡片下半部文字資訊 -->
             <div class="absolute bottom-14 left-4 right-4 space-y-0.5">
               <h3 class="text-lg font-bold text-white tracking-wide">${p.name}</h3>
               <p class="text-xs text-gray-300 font-mono">${p.role}</p>
             </div>
 
-            <!-- 覆蓋在照片下方的極光螢光綠按鈕（無邊框） -->
             <div class="absolute bottom-3 left-3 right-3">
               <button class="btn-neon w-full py-2 text-xs rounded shadow-lg flex items-center justify-center space-x-1">
                 <span>檢視個案診斷</span>
@@ -358,5 +344,45 @@
     function showDetail(id) {
       const data = PARTICIPANTS.find(p => p.id === id) || PARTICIPANTS[0];
       
-      document.getElementById('detail-id').innerText = `CASE #${data.id}`; document.getElementById('detail-name').innerText = data.name; document.getElementById('detail-role').innerText = data.role; document.getElementById('detail-target').innerText = data.target; document.getElementById('detail-anxiety').innerText = data.anxiety; document.getElementById('detail-statement').innerText = `"${data.statement}"`;
-      document.getElementById('detail-birth-info').innerText = `自出生日期
+      document.getElementById('detail-id').innerText = `CASE #${data.id}`;
+      document.getElementById('detail-name').innerText = data.name;
+      document.getElementById('detail-role').innerText = data.role;
+      document.getElementById('detail-target').innerText = data.target;
+      document.getElementById('detail-anxiety').innerText = data.anxiety;
+      document.getElementById('detail-statement').innerText = `"${data.statement}"`;
+      document.getElementById('detail-birth-info').innerText = `自出生日期 ${data.birthDate} 起算，依成人平靜狀態每分鐘 15 次呼吸即時動態估算`;
+
+      const imgEl = document.getElementById('detail-image');
+      const placeholderEl = document.getElementById('detail-placeholder');
+      
+      if (data.imageUrl) {
+        placeholderEl.classList.add('hidden');
+        imgEl.classList.remove('hidden');
+        imgEl.src = `${data.imageUrl}?v=${Date.now()}`;
+      } else {
+        imgEl.classList.add('hidden');
+        placeholderEl.classList.remove('hidden');
+      }
+
+      const audio = document.getElementById('breathing-audio');
+      const source = document.getElementById('audio-source');
+      source.src = data.audioUrl;
+      audio.load();
+
+      startBreathCounter(data.birthDate);
+
+      document.getElementById('portal-view').classList.add('hidden');
+      document.getElementById('detail-view').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderPortalCards();
+      startOutputFluctuation();
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetId = urlParams.get('id');
+      if (targetId) showDetail(targetId);
+    });
+  </script>
+</body>
+</html>

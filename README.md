@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>理想狀態 - Archive Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入 Three.js 與 STLLoader / OrbitControls 庫 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
 
@@ -34,7 +39,6 @@
       box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.9), 0 0 24px 0 rgba(16, 185, 129, 0.08);
     }
 
-    /* 獨自保留卡片按鈕為極光螢光綠 */
     .btn-neon {
       background-color: #39FF14;
       color: #000000;
@@ -57,7 +61,6 @@
       box-shadow: inset 0 0 12px rgba(239, 68, 68, 0.12), 0 0 8px rgba(239, 68, 68, 0.2);
     }
 
-    /* 呼吸計數器跳動動畫（翡翠綠） */
     @keyframes pulse-emerald {
       0%, 100% { color: #10b981; opacity: 1; }
       50% { color: #6ee7b7; opacity: 0.7; }
@@ -65,11 +68,21 @@
     .breath-counter-active {
       animation: pulse-emerald 2s infinite;
     }
+
+    @keyframes mobileFade {
+      0%, 45% { opacity: 0; }
+      55%, 95% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @media (hover: none) {
+      .mobile-auto-fade {
+        animation: mobileFade 6s infinite ease-in-out;
+      }
+    }
   </style>
 </head>
 <body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-emerald-500 selection:text-black">
 
-  <!-- 頂部氛圍光學光暈 -->
   <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-emerald-950/20 blur-[130px] pointer-events-none rounded-full"></div>
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
@@ -86,7 +99,6 @@
         <p class="text-xs text-gray-500 tracking-wider mt-0.5">當代個人怠工檔案與系統診斷報告 Archive Portal</p>
       </div>
 
-      <!-- 4 個數字持續高速隨機跳動的產出監控 -->
       <div class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 w-full md:w-auto flex justify-between md:block">
         <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
         <span id="header-output-counter" class="text-emerald-400 font-bold">0.000 KG/H</span>
@@ -97,7 +109,7 @@
     <main id="portal-view" class="space-y-8">
       <div class="flex justify-between items-end border-b border-gray-800/60 pb-3">
         <div>
-          <h2 class="text-lg font-bold text-white tracking-wide">代理人檔案目錄</h2>
+          <h2 class="text-lg font-bold text-white tracking-wide">委託人檔案目錄</h2>
           <p class="text-xs text-gray-500">點擊個案卡片，檢視完整「臨床診斷報告與生命累積呼吸數據」</p>
         </div>
         <span class="text-xs text-gray-600 font-mono">TOTAL: 04 CASES</span>
@@ -130,16 +142,19 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          <!-- 照片區域 (3:4 比例) -->
-          <div id="detail-image-container" class="aspect-[3/4] bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group flex items-center justify-center">
+          <div id="detail-media-container" class="aspect-[3/4] bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group flex items-center justify-center">
+            
+            <div id="stl-canvas-container" class="w-full h-full absolute inset-0 cursor-grab active:cursor-grabbing"></div>
+            <img id="detail-image" src="" alt="Sculpture Scan" class="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 hidden">
+
             <div id="detail-placeholder" class="hidden w-full h-full flex flex-col items-center justify-center bg-gray-900/50 text-gray-600 space-y-2 p-4 text-center">
               <svg class="w-12 h-12 stroke-emerald-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span class="text-[10px] font-mono text-gray-500">3D MODEL NO DATA</span>
             </div>
-            <img id="detail-image" src="" alt="Sculpture Scan" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500">
-            <span class="absolute bottom-2.5 left-2.5 text-[10px] font-mono text-gray-400 bg-black/70 backdrop-blur px-1.5 py-0.5 rounded border border-gray-800">3D SCULPTURE SCAN</span>
+
+            <span id="media-badge" class="absolute bottom-2.5 left-2.5 text-[10px] font-mono text-gray-400 bg-black/70 backdrop-blur px-1.5 py-0.5 rounded border border-gray-800 pointer-events-none z-10">PROXY MODEL</span>
           </div>
 
           <div class="md:col-span-2 bg-gray-950/80 rounded-lg p-5 border border-gray-800/80 space-y-4 font-mono text-xs overflow-hidden">
@@ -153,7 +168,6 @@
                 <span id="detail-anxiety" class="font-bold text-red-400">---</span>
               </div>
               
-              <!-- 呼吸計數器區塊 -->
               <div class="sm:col-span-2 bg-emerald-950/20 p-3.5 rounded border border-emerald-500/20 w-full overflow-hidden">
                 <div class="flex justify-between items-center mb-1.5 gap-2">
                   <span class="text-emerald-400 text-[10px] font-bold tracking-wider break-words leading-tight">
@@ -213,7 +227,6 @@
       </article>
     </main>
 
-    <!-- 頁尾 -->
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
       <p>© SHAOQI SU. ALL RIGHTS RESERVED.</p>
       <p class="mt-2 md:mt-0">ARTWORK BY SHAOQI SU</p>
@@ -231,6 +244,8 @@
         anxiety: "87.4% (極高)",
         birthDate: "2005-02-26",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg",
+        hoverImageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg",
+        stlUrl: "head01.stl",
         audioUrl: "breath01.mp3",
         statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我需要一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
       },
@@ -242,6 +257,8 @@
         anxiety: "91.2% (極高)",
         birthDate: "2005-07-10",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg",
+        hoverImageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg",
+        stlUrl: "head02.stl",
         audioUrl: "breath02.mp3",
         statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我需要這台機器幫我把『休息』當成一項公事來認真執行。"
       },
@@ -253,6 +270,8 @@
         anxiety: "79.8% (高)",
         birthDate: "2005-06-09",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg",
+        hoverImageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg",
+        stlUrl: "head03.stl",
         audioUrl: "breath03.mp3",
         statement: "休假對我來說不是放鬆，而是一場審判。躺在床上滑手機的每一分鐘，都在盤算著自己少做了多少事。如果一定要有人在那裡放空，那就讓這顆塑膠薄膜包覆的人頭替我坐牢吧。"
       },
@@ -264,29 +283,51 @@
         anxiety: "95.0% (準備中)",
         birthDate: "2005-01-01",
         imageUrl: "",
+        hoverImageUrl: "",
+        stlUrl: "",
         audioUrl: "breath04.mp3",
         statement: "檔案建立中，等待資料輸入..."
       }
     ];
 
     let breathTimer = null;
+    let stlScene, stlCamera, stlRenderer, stlControls, stlMesh, animFrameId;
 
-    // 4 個數字每時每刻高速隨機跳動 (每 80ms 刷新一次)
-    function startFastOutputFluctuation() {
+    // 高速跳動且隨機觸發「0.000 強制歸零停滯 0.5 秒」的系統監控邏輯
+    function startOutputFluctuationWithPause() {
       const headerOutputEl = document.getElementById('header-output-counter');
       const detailOutputEl = document.getElementById('detail-output-counter');
+      let isPaused = false;
 
-      setInterval(() => {
-        const d1 = Math.floor(Math.random() * 10);
-        const d2 = Math.floor(Math.random() * 10);
-        const d3 = Math.floor(Math.random() * 10);
-        const d4 = Math.floor(Math.random() * 10);
-        
-        const randomVal = `${d1}.${d2}${d3}${d4}`;
+      function updateCounter() {
+        if (isPaused) return;
 
-        if (headerOutputEl) headerOutputEl.innerText = `${randomVal} KG/H`;
-        if (detailOutputEl) detailOutputEl.innerText = `${randomVal} KG/H (NULL)`;
-      }, 80);
+        // 約 15% 的機率觸發「同時歸零 0.000 並且停滯 0.5 秒」
+        if (Math.random() < 0.15) {
+          isPaused = true;
+          const zeroVal = "0.000";
+          if (headerOutputEl) headerOutputEl.innerText = `${zeroVal} KG/H`;
+          if (detailOutputEl) detailOutputEl.innerText = `${zeroVal} KG/H (NULL)`;
+
+          // 歸零凍結 500ms (0.5秒) 後繼續跳動
+          setTimeout(() => {
+            isPaused = false;
+          }, 500);
+        } else {
+          // 一般狀態：4 個數字每 80ms 隨機變動
+          const d1 = Math.floor(Math.random() * 10);
+          const d2 = Math.floor(Math.random() * 10);
+          const d3 = Math.floor(Math.random() * 10);
+          const d4 = Math.floor(Math.random() * 10);
+          
+          const randomVal = `${d1}.${d2}${d3}${d4}`;
+
+          if (headerOutputEl) headerOutputEl.innerText = `${randomVal} KG/H`;
+          if (detailOutputEl) detailOutputEl.innerText = `${randomVal} KG/H (NULL)`;
+        }
+      }
+
+      setInterval(updateCounter, 80);
     }
 
     function calculateLifetimeBreaths(birthDateStr) {
@@ -309,14 +350,90 @@
       }, 4000);
     }
 
+    function loadSTLModel(stlUrl) {
+      const container = document.getElementById('stl-canvas-container');
+      container.innerHTML = '';
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      stlScene = new THREE.Scene();
+      stlCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      stlCamera.position.set(0, 0, 100);
+
+      stlRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      stlRenderer.setSize(width, height);
+      stlRenderer.setPixelRatio(window.devicePixelRatio);
+      container.appendChild(stlRenderer.domElement);
+
+      stlControls = new THREE.OrbitControls(stlCamera, stlRenderer.domElement);
+      stlControls.enableDamping = true;
+      stlControls.dampingFactor = 0.05;
+      stlControls.autoRotate = true;
+      stlControls.autoRotateSpeed = 2.0;
+
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      stlScene.add(ambientLight);
+
+      const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
+      dirLight1.position.set(1, 1, 1);
+      stlScene.add(dirLight1);
+
+      const dirLight2 = new THREE.DirectionalLight(0x10b981, 0.4);
+      dirLight2.position.set(-1, -1, -1);
+      stlScene.add(dirLight2);
+
+      const loader = new THREE.STLLoader();
+      loader.load(
+        stlUrl,
+        function (geometry) {
+          geometry.center();
+          geometry.computeVertexNormals();
+
+          const material = new THREE.MeshStandardMaterial({
+            color: 0xcccccc,
+            roughness: 0.4,
+            metalness: 0.2
+          });
+
+          stlMesh = new THREE.Mesh(geometry, material);
+          geometry.computeBoundingSphere();
+          const radius = geometry.boundingSphere.radius;
+          const scale = 35 / radius;
+          stlMesh.scale.set(scale, scale, scale);
+
+          stlScene.add(stlMesh);
+        },
+        undefined,
+        function (error) {
+          console.warn('STL 載入失敗，切換為備用圖像', error);
+          document.getElementById('stl-canvas-container').classList.add('hidden');
+          document.getElementById('detail-image').classList.remove('hidden');
+        }
+      );
+
+      function animate() {
+        animFrameId = requestAnimationFrame(animate);
+        stlControls.update();
+        stlRenderer.render(stlScene, stlCamera);
+      }
+      animate();
+    }
+
     function renderPortalCards() {
       const container = document.getElementById('cards-container');
       container.innerHTML = PARTICIPANTS.map(p => {
         const imgSrc = p.imageUrl ? `${p.imageUrl}?v=${Date.now()}` : '';
+        const hoverImgSrc = (p.hoverImageUrl || p.imageUrl) ? `${(p.hoverImageUrl || p.imageUrl)}?v=${Date.now()}` : '';
+        
         return `
         <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl overflow-hidden cursor-pointer flex flex-col justify-between relative group">
           <div class="aspect-[3/4] w-full bg-gray-950 relative overflow-hidden flex items-center justify-center">
-            ${p.imageUrl ? `<img src="${imgSrc}" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500">` : `
+            ${p.imageUrl ? `
+              <img src="${imgSrc}" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-all duration-500 absolute inset-0">
+              <img src="${hoverImgSrc}" class="w-full h-full object-cover grayscale contrast-125 opacity-0 group-hover:opacity-100 mobile-auto-fade group-hover:scale-105 transition-all duration-500 absolute inset-0">
+            ` : `
               <div class="flex flex-col items-center space-y-2 text-gray-700">
                 <svg class="w-12 h-12 stroke-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -325,13 +442,13 @@
               </div>
             `}
             
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none"></div>
 
-            <div class="absolute top-3 left-3">
+            <div class="absolute top-3 left-3 pointer-events-none">
               <span class="text-xs font-mono text-white tracking-wider font-bold">CASE #${p.id}</span>
             </div>
 
-            <div class="absolute bottom-14 left-4 right-4 space-y-0.5">
+            <div class="absolute bottom-14 left-4 right-4 space-y-0.5 pointer-events-none">
               <h3 class="text-lg font-bold text-white tracking-wide">${p.name}</h3>
               <p class="text-xs text-gray-300 font-mono">${p.role}</p>
             </div>
@@ -351,6 +468,7 @@
       document.getElementById('portal-view').classList.remove('hidden');
       document.getElementById('detail-view').classList.add('hidden');
       if (breathTimer) clearInterval(breathTimer);
+      if (animFrameId) cancelAnimationFrame(animFrameId);
       const audio = document.getElementById('breathing-audio');
       audio.pause();
     }
@@ -366,16 +484,28 @@
       document.getElementById('detail-statement').innerText = `"${data.statement}"`;
       document.getElementById('detail-birth-info').innerText = `自出生日期 ${data.birthDate} 起算，依成人平靜狀態每分鐘 15 次呼吸即時動態估算`;
 
+      const stlContainer = document.getElementById('stl-canvas-container');
       const imgEl = document.getElementById('detail-image');
       const placeholderEl = document.getElementById('detail-placeholder');
-      
-      if (data.imageUrl) {
+      const mediaBadge = document.getElementById('media-badge');
+
+      if (data.stlUrl) {
+        stlContainer.classList.remove('hidden');
+        imgEl.classList.add('hidden');
+        placeholderEl.classList.add('hidden');
+        mediaBadge.innerText = 'PROXY MODEL LIVE PREVIEW';
+        loadSTLModel(data.stlUrl);
+      } else if (data.imageUrl) {
+        stlContainer.classList.add('hidden');
         placeholderEl.classList.add('hidden');
         imgEl.classList.remove('hidden');
         imgEl.src = `${data.imageUrl}?v=${Date.now()}`;
+        mediaBadge.innerText = '3D SCULPTURE SCAN';
       } else {
+        stlContainer.classList.add('hidden');
         imgEl.classList.add('hidden');
         placeholderEl.classList.remove('hidden');
+        mediaBadge.innerText = 'NO MODEL DATA';
       }
 
       const audio = document.getElementById('breathing-audio');
@@ -392,7 +522,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       renderPortalCards();
-      startFastOutputFluctuation();
+      startOutputFluctuationWithPause();
       const urlParams = new URLSearchParams(window.location.search);
       const targetId = urlParams.get('id');
       if (targetId) showDetail(targetId);

@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>理想狀態 - Archive Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- 引入 Three.js 與 STLLoader / OrbitControls 庫 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
@@ -142,19 +138,31 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          <div id="detail-media-container" class="aspect-[3/4] bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group flex items-center justify-center">
+          
+          <!-- 左右拖拉圖片對比器 (Before / After Split Slider) -->
+          <div id="detail-slider-container" class="aspect-[3/4] bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative select-none group">
             
-            <div id="stl-canvas-container" class="w-full h-full absolute inset-0 cursor-grab active:cursor-grabbing"></div>
-            <img id="detail-image" src="" alt="Sculpture Scan" class="w-full h-full object-cover grayscale contrast-125 transition-transform duration-500 hidden">
-
-            <div id="detail-placeholder" class="hidden w-full h-full flex flex-col items-center justify-center bg-gray-900/50 text-gray-600 space-y-2 p-4 text-center">
-              <svg class="w-12 h-12 stroke-emerald-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <span class="text-[10px] font-mono text-gray-500">3D MODEL NO DATA</span>
+            <!-- 底圖：代理裝置照片 (PROXY DEVICE) -->
+            <img id="detail-device-img" src="" alt="Proxy Device" class="w-full h-full object-cover grayscale contrast-125 absolute inset-0 pointer-events-none">
+            
+            <!-- 上圖：本體照片 (PRINCIPAL PHOTO) - 被 Clip 切割 -->
+            <div id="slider-clip-wrapper" class="absolute inset-0 overflow-hidden w-1/2 border-r-2 border-emerald-400">
+              <img id="detail-principal-img" src="" alt="Principal" class="w-full h-full object-cover grayscale contrast-125 pointer-events-none" style="max-width: none;">
             </div>
 
-            <span id="media-badge" class="absolute bottom-2.5 left-2.5 text-[10px] font-mono text-gray-400 bg-black/70 backdrop-blur px-1.5 py-0.5 rounded border border-gray-800 pointer-events-none z-10">PROXY MODEL</span>
+            <!-- 可拖曳之原生 Range Slider -->
+            <input type="range" min="0" max="100" value="50" id="comparison-slider" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30">
+
+            <!-- 垂直指示線與圓形拖曳圖示 -->
+            <div id="slider-line" class="absolute top-0 bottom-0 w-0.5 bg-emerald-400 pointer-events-none z-20 left-1/2 -translate-x-1/2">
+              <div class="w-6 h-6 rounded-full bg-emerald-400 text-black font-bold text-[10px] flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg">
+                ◄►
+              </div>
+            </div>
+
+            <!-- 左右對比文字標籤 -->
+            <span class="absolute bottom-2.5 left-2.5 text-[9px] font-mono text-emerald-400 bg-black/80 backdrop-blur px-1.5 py-0.5 rounded border border-emerald-500/30 z-20 pointer-events-none">本體 PRINCIPAL</span>
+            <span class="absolute bottom-2.5 right-2.5 text-[9px] font-mono text-gray-400 bg-black/80 backdrop-blur px-1.5 py-0.5 rounded border border-gray-800 z-20 pointer-events-none">裝置 PROXY DEVICE</span>
           </div>
 
           <div class="md:col-span-2 bg-gray-950/80 rounded-lg p-5 border border-gray-800/80 space-y-4 font-mono text-xs overflow-hidden">
@@ -235,6 +243,9 @@
   </div>
 
   <script>
+    // PARTICIPANTS 資料庫
+    // imageUrl: 本體照片
+    // deviceImageUrl: 代理裝置照片 (未設定時自動帶入同張照片)
     const PARTICIPANTS = [
       {
         id: "01",
@@ -244,8 +255,7 @@
         anxiety: "87.4% (極高)",
         birthDate: "2005-02-26",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg",
-        hoverImageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg",
-        stlUrl: "head01.stl",
+        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg", // 可替換為裝置照片網址
         audioUrl: "breath01.mp3",
         statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我需要一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
       },
@@ -257,8 +267,7 @@
         anxiety: "91.2% (極高)",
         birthDate: "2005-07-10",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg",
-        hoverImageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg",
-        stlUrl: "head02.stl",
+        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg", // 可替換為裝置照片網址
         audioUrl: "breath02.mp3",
         statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我需要這台機器幫我把『休息』當成一項公事來認真執行。"
       },
@@ -270,8 +279,7 @@
         anxiety: "79.8% (高)",
         birthDate: "2005-06-09",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg",
-        hoverImageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg",
-        stlUrl: "head03.stl",
+        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg", // 可替換為裝置照片網址
         audioUrl: "breath03.mp3",
         statement: "休假對我來說不是放鬆，而是一場審判。躺在床上滑手機的每一分鐘，都在盤算著自己少做了多少事。如果一定要有人在那裡放空，那就讓這顆塑膠薄膜包覆的人頭替我坐牢吧。"
       },
@@ -283,17 +291,15 @@
         anxiety: "95.0% (準備中)",
         birthDate: "2005-01-01",
         imageUrl: "",
-        hoverImageUrl: "",
-        stlUrl: "",
+        deviceImageUrl: "",
         audioUrl: "breath04.mp3",
         statement: "檔案建立中，等待資料輸入..."
       }
     ];
 
     let breathTimer = null;
-    let stlScene, stlCamera, stlRenderer, stlControls, stlMesh, animFrameId;
 
-    // 高速跳動且隨機觸發「0.000 強制歸零停滯 0.5 秒」的系統監控邏輯
+    // 4 個數字高速動態跳動與 0.5 秒凍結停滯邏輯
     function startOutputFluctuationWithPause() {
       const headerOutputEl = document.getElementById('header-output-counter');
       const detailOutputEl = document.getElementById('detail-output-counter');
@@ -302,19 +308,16 @@
       function updateCounter() {
         if (isPaused) return;
 
-        // 約 15% 的機率觸發「同時歸零 0.000 並且停滯 0.5 秒」
         if (Math.random() < 0.15) {
           isPaused = true;
           const zeroVal = "0.000";
           if (headerOutputEl) headerOutputEl.innerText = `${zeroVal} KG/H`;
           if (detailOutputEl) detailOutputEl.innerText = `${zeroVal} KG/H (NULL)`;
 
-          // 歸零凍結 500ms (0.5秒) 後繼續跳動
           setTimeout(() => {
             isPaused = false;
           }, 500);
         } else {
-          // 一般狀態：4 個數字每 80ms 隨機變動
           const d1 = Math.floor(Math.random() * 10);
           const d2 = Math.floor(Math.random() * 10);
           const d3 = Math.floor(Math.random() * 10);
@@ -350,89 +353,46 @@
       }, 4000);
     }
 
-    function loadSTLModel(stlUrl) {
-      const container = document.getElementById('stl-canvas-container');
-      container.innerHTML = '';
-      if (animFrameId) cancelAnimationFrame(animFrameId);
+    // 左右對比拉條事件監聽
+    function initComparisonSlider() {
+      const slider = document.getElementById('comparison-slider');
+      const clipWrapper = document.getElementById('slider-clip-wrapper');
+      const sliderLine = document.getElementById('slider-line');
+      const principalImg = document.getElementById('detail-principal-img');
+      const sliderContainer = document.getElementById('detail-slider-container');
 
-      const width = container.clientWidth;
-      const height = container.clientHeight;
-
-      stlScene = new THREE.Scene();
-      stlCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-      stlCamera.position.set(0, 0, 100);
-
-      stlRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      stlRenderer.setSize(width, height);
-      stlRenderer.setPixelRatio(window.devicePixelRatio);
-      container.appendChild(stlRenderer.domElement);
-
-      stlControls = new THREE.OrbitControls(stlCamera, stlRenderer.domElement);
-      stlControls.enableDamping = true;
-      stlControls.dampingFactor = 0.05;
-      stlControls.autoRotate = true;
-      stlControls.autoRotateSpeed = 2.0;
-
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-      stlScene.add(ambientLight);
-
-      const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
-      dirLight1.position.set(1, 1, 1);
-      stlScene.add(dirLight1);
-
-      const dirLight2 = new THREE.DirectionalLight(0x10b981, 0.4);
-      dirLight2.position.set(-1, -1, -1);
-      stlScene.add(dirLight2);
-
-      const loader = new THREE.STLLoader();
-      loader.load(
-        stlUrl,
-        function (geometry) {
-          geometry.center();
-          geometry.computeVertexNormals();
-
-          const material = new THREE.MeshStandardMaterial({
-            color: 0xcccccc,
-            roughness: 0.4,
-            metalness: 0.2
-          });
-
-          stlMesh = new THREE.Mesh(geometry, material);
-          geometry.computeBoundingSphere();
-          const radius = geometry.boundingSphere.radius;
-          const scale = 35 / radius;
-          stlMesh.scale.set(scale, scale, scale);
-
-          stlScene.add(stlMesh);
-        },
-        undefined,
-        function (error) {
-          console.warn('STL 載入失敗，切換為備用圖像', error);
-          document.getElementById('stl-canvas-container').classList.add('hidden');
-          document.getElementById('detail-image').classList.remove('hidden');
-        }
-      );
-
-      function animate() {
-        animFrameId = requestAnimationFrame(animate);
-        stlControls.update();
-        stlRenderer.render(stlScene, stlCamera);
+      function updateSlider(val) {
+        clipWrapper.style.width = `${val}%`;
+        sliderLine.style.left = `${val}%`;
       }
-      animate();
+
+      function updateImgDimensions() {
+        const width = sliderContainer.clientWidth;
+        const height = sliderContainer.clientHeight;
+        principalImg.style.width = `${width}px`;
+        principalImg.style.height = `${height}px`;
+      }
+
+      slider.addEventListener('input', (e) => {
+        updateSlider(e.target.value);
+      });
+
+      window.addEventListener('resize', updateImgDimensions);
+      updateImgDimensions();
     }
 
     function renderPortalCards() {
       const container = document.getElementById('cards-container');
       container.innerHTML = PARTICIPANTS.map(p => {
         const imgSrc = p.imageUrl ? `${p.imageUrl}?v=${Date.now()}` : '';
-        const hoverImgSrc = (p.hoverImageUrl || p.imageUrl) ? `${(p.hoverImageUrl || p.imageUrl)}?v=${Date.now()}` : '';
+        const deviceImgSrc = (p.deviceImageUrl || p.imageUrl) ? `${(p.deviceImageUrl || p.imageUrl)}?v=${Date.now()}` : '';
         
         return `
         <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl overflow-hidden cursor-pointer flex flex-col justify-between relative group">
           <div class="aspect-[3/4] w-full bg-gray-950 relative overflow-hidden flex items-center justify-center">
             ${p.imageUrl ? `
               <img src="${imgSrc}" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-all duration-500 absolute inset-0">
-              <img src="${hoverImgSrc}" class="w-full h-full object-cover grayscale contrast-125 opacity-0 group-hover:opacity-100 mobile-auto-fade group-hover:scale-105 transition-all duration-500 absolute inset-0">
+              <img src="${deviceImgSrc}" class="w-full h-full object-cover grayscale contrast-125 opacity-0 group-hover:opacity-100 mobile-auto-fade group-hover:scale-105 transition-all duration-500 absolute inset-0">
             ` : `
               <div class="flex flex-col items-center space-y-2 text-gray-700">
                 <svg class="w-12 h-12 stroke-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -468,7 +428,6 @@
       document.getElementById('portal-view').classList.remove('hidden');
       document.getElementById('detail-view').classList.add('hidden');
       if (breathTimer) clearInterval(breathTimer);
-      if (animFrameId) cancelAnimationFrame(animFrameId);
       const audio = document.getElementById('breathing-audio');
       audio.pause();
     }
@@ -484,29 +443,19 @@
       document.getElementById('detail-statement').innerText = `"${data.statement}"`;
       document.getElementById('detail-birth-info').innerText = `自出生日期 ${data.birthDate} 起算，依成人平靜狀態每分鐘 15 次呼吸即時動態估算`;
 
-      const stlContainer = document.getElementById('stl-canvas-container');
-      const imgEl = document.getElementById('detail-image');
-      const placeholderEl = document.getElementById('detail-placeholder');
-      const mediaBadge = document.getElementById('media-badge');
+      const principalImg = document.getElementById('detail-principal-img');
+      const deviceImg = document.getElementById('detail-device-img');
+      
+      const pUrl = data.imageUrl ? `${data.imageUrl}?v=${Date.now()}` : '';
+      const dUrl = data.deviceImageUrl ? `${data.deviceImageUrl}?v=${Date.now()}` : pUrl;
 
-      if (data.stlUrl) {
-        stlContainer.classList.remove('hidden');
-        imgEl.classList.add('hidden');
-        placeholderEl.classList.add('hidden');
-        mediaBadge.innerText = 'PROXY MODEL LIVE PREVIEW';
-        loadSTLModel(data.stlUrl);
-      } else if (data.imageUrl) {
-        stlContainer.classList.add('hidden');
-        placeholderEl.classList.add('hidden');
-        imgEl.classList.remove('hidden');
-        imgEl.src = `${data.imageUrl}?v=${Date.now()}`;
-        mediaBadge.innerText = '3D SCULPTURE SCAN';
-      } else {
-        stlContainer.classList.add('hidden');
-        imgEl.classList.add('hidden');
-        placeholderEl.classList.remove('hidden');
-        mediaBadge.innerText = 'NO MODEL DATA';
-      }
+      principalImg.src = pUrl;
+      deviceImg.src = dUrl;
+
+      // 重設拉桿到中間 (50%)
+      document.getElementById('comparison-slider').value = 50;
+      document.getElementById('slider-clip-wrapper').style.width = '50%';
+      document.getElementById('slider-line').style.left = '50%';
 
       const audio = document.getElementById('breathing-audio');
       const source = document.getElementById('audio-source');
@@ -518,10 +467,19 @@
       document.getElementById('portal-view').classList.add('hidden');
       document.getElementById('detail-view').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      setTimeout(() => {
+        const sliderContainer = document.getElementById('detail-slider-container');
+        const width = sliderContainer.clientWidth;
+        const height = sliderContainer.clientHeight;
+        principalImg.style.width = `${width}px`;
+        principalImg.style.height = `${height}px`;
+      }, 50);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       renderPortalCards();
+      initComparisonSlider();
       startOutputFluctuationWithPause();
       const urlParams = new URLSearchParams(window.location.search);
       const targetId = urlParams.get('id');

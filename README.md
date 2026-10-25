@@ -86,9 +86,10 @@
         <p class="text-xs text-gray-500 tracking-wider mt-0.5">當代個人怠工檔案與系統診斷報告 Archive Portal</p>
       </div>
 
+      <!-- 動態跳動但永遠為零的產出監控 -->
       <div class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 w-full md:w-auto flex justify-between md:block">
         <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
-        <span class="text-emerald-400 font-bold">0.000 KG/H</span>
+        <span id="header-output-counter" class="text-emerald-400 font-bold transition-all duration-300">0.000 KG/H</span>
       </div>
     </header>
 
@@ -173,7 +174,7 @@
 
               <div>
                 <span class="text-gray-500 text-[10px] block">ECONOMIC OUTPUT (產出價值)</span>
-                <span class="font-bold text-emerald-400">0.000 KG/H (NULL)</span>
+                <span id="detail-output-counter" class="font-bold text-emerald-400">0.000 KG/H (NULL)</span>
               </div>
             </div>
 
@@ -215,7 +216,7 @@
     <!-- 頁尾 -->
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
       <p>© SHAOQI SU. ALL RIGHTS RESERVED.</p>
-      <p class="mt-2 md:mt-0">ARTWORK BY ANDREW SU </p>
+      <p class="mt-2 md:mt-0">ARTWORK BY SHAOQI SU</p>
     </footer>
 
   </div>
@@ -269,6 +270,19 @@
     ];
 
     let breathTimer = null;
+
+    // 「永遠為零」的微幅跳動產出監控邏輯
+    function startOutputFluctuation() {
+      const headerOutputEl = document.getElementById('header-output-counter');
+      const detailOutputEl = document.getElementById('detail-output-counter');
+
+      setInterval(() => {
+        // 80% 的機率保持為純零 "0.000"，20% 的機率跳出 0.001 ~ 0.009 的極微小數值後立刻回歸零
+        const randomVal = Math.random() < 0.8 ? "0.000" : `0.00${Math.floor(Math.random() * 9) + 1}`;
+        
+        if (headerOutputEl) headerOutputEl.innerText = `${randomVal} KG/H`; if (detailOutputEl) detailOutputEl.innerText = `${randomVal} KG/H (NULL)`;
+      }, 800);
+    }
 
     function calculateLifetimeBreaths(birthDateStr) {
       const birthDate = new Date(birthDateStr);
@@ -344,44 +358,5 @@
     function showDetail(id) {
       const data = PARTICIPANTS.find(p => p.id === id) || PARTICIPANTS[0];
       
-      document.getElementById('detail-id').innerText = `CASE #${data.id}`;
-      document.getElementById('detail-name').innerText = data.name;
-      document.getElementById('detail-role').innerText = data.role;
-      document.getElementById('detail-target').innerText = data.target;
-      document.getElementById('detail-anxiety').innerText = data.anxiety;
-      document.getElementById('detail-statement').innerText = `"${data.statement}"`;
-      document.getElementById('detail-birth-info').innerText = `自出生日期 ${data.birthDate} 起算，依成人平靜狀態每分鐘 15 次呼吸即時動態估算`;
-
-      const imgEl = document.getElementById('detail-image');
-      const placeholderEl = document.getElementById('detail-placeholder');
-      
-      if (data.imageUrl) {
-        placeholderEl.classList.add('hidden');
-        imgEl.classList.remove('hidden');
-        imgEl.src = `${data.imageUrl}?v=${Date.now()}`;
-      } else {
-        imgEl.classList.add('hidden');
-        placeholderEl.classList.remove('hidden');
-      }
-
-      const audio = document.getElementById('breathing-audio');
-      const source = document.getElementById('audio-source');
-      source.src = data.audioUrl;
-      audio.load();
-
-      startBreathCounter(data.birthDate);
-
-      document.getElementById('portal-view').classList.add('hidden');
-      document.getElementById('detail-view').classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      renderPortalCards();
-      const urlParams = new URLSearchParams(window.location.search);
-      const targetId = urlParams.get('id');
-      if (targetId) showDetail(targetId);
-    });
-  </script>
-</body>
-</html>
+      document.getElementById('detail-id').innerText = `CASE #${data.id}`; document.getElementById('detail-name').innerText = data.name; document.getElementById('detail-role').innerText = data.role; document.getElementById('detail-target').innerText = data.target; document.getElementById('detail-anxiety').innerText = data.anxiety; document.getElementById('detail-statement').innerText = `"${data.statement}"`;
+      document.getElementById('detail-birth-info').innerText = `自出生日期

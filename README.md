@@ -49,11 +49,12 @@
       box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.9), 0 0 24px 0 rgba(57, 255, 20, 0.15);
     }
 
-    /* 新螢光綠按鈕 */
+    /* 螢光綠按鈕（無邊框） */
     .btn-neon {
       background-color: #39FF14;
       color: #000000;
       font-weight: 800;
+      border: none;
       transition: all 0.2s ease;
     }
 
@@ -82,7 +83,6 @@
 </head>
 <body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-neon selection:text-black">
 
-  <!-- 頂部高亮螢光綠光暈 -->
   <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-[rgba(57,255,20,0.08)] blur-[140px] pointer-events-none rounded-full"></div>
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
@@ -131,7 +131,7 @@
         
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-800 pb-6 gap-4">
           <div>
-            <span id="detail-id" class="inline-block bg-[rgba(57,255,20,0.15)] text-neon text-xs font-mono px-2 py-0.5 rounded border border-[rgba(57,255,20,0.3)] mb-2">CASE #000</span>
+            <span id="detail-id" class="inline-block text-white text-xs font-mono mb-2">CASE #000</span>
             <h2 id="detail-name" class="text-2xl md:text-3xl font-bold text-white">---</h2>
             <p id="detail-role" class="text-xs font-mono text-gray-400 mt-1">---</p>
           </div>
@@ -142,7 +142,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          <!-- 照片區域 (改為 3:4 比例) -->
+          <!-- 照片區域 (3:4 比例) -->
           <div id="detail-image-container" class="aspect-[3/4] bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group flex items-center justify-center">
             <div id="detail-placeholder" class="hidden w-full h-full flex flex-col items-center justify-center bg-gray-900/50 text-gray-600 space-y-2 p-4 text-center">
               <svg class="w-12 h-12 stroke-neon/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -258,7 +258,7 @@
         target: "參與者 C (本體)",
         anxiety: "79.8% (高)",
         birthDate: "2005-06-09",
-        imageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg",
+        imageUrl: "IMG_0269.jpg",
         audioUrl: "breath03.mp3",
         statement: "休假對我來說不是放鬆，而是一場審判。躺在床上滑手機的每一分鐘，都在盤算著自己少做了多少事。如果一定要有人在那裡放空，那就讓這顆塑膠薄膜包覆的人頭替我坐牢吧。"
       },
@@ -314,12 +314,12 @@
               </div>
             `}
             
-            <!-- 漸層黑色遮罩 (提升覆蓋文字與按鈕可讀性) -->
+            <!-- 漸層黑色遮罩 -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 
-            <!-- 卡片頂部編號 -->
-            <div class="absolute top-3 left-3 bg-black/60 backdrop-blur px-2 py-0.5 rounded border border-gray-800">
-              <span class="text-[10px] font-mono text-neon tracking-wider">CASE #${p.id}</span>
+            <!-- 卡片頂部白色編號（無邊框） -->
+            <div class="absolute top-3 left-3">
+              <span class="text-xs font-mono text-white tracking-wider font-bold">CASE #${p.id}</span>
             </div>
 
             <!-- 卡片下半部文字資訊 -->
@@ -328,9 +328,9 @@
               <p class="text-xs text-gray-300 font-mono">${p.role}</p>
             </div>
 
-            <!-- 覆蓋在照片下方的綠色按鈕 -->
+            <!-- 覆蓋在照片下方的無邊框綠色按鈕 -->
             <div class="absolute bottom-3 left-3 right-3">
-              <button class="btn-neon w-full py-2 text-xs rounded border border-neon/50 shadow-lg flex items-center justify-center space-x-1">
+              <button class="btn-neon w-full py-2 text-xs rounded shadow-lg flex items-center justify-center space-x-1">
                 <span>檢視個案診斷</span>
                 <span>→</span>
               </button>

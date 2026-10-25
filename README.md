@@ -48,6 +48,23 @@
       box-shadow: 0 0 20px rgba(57, 255, 20, 0.6);
     }
 
+    /* 螢光綠高亮與非高亮標籤樣式 */
+    .badge-neon-active {
+      background-color: #39FF14 !important;
+      color: #000000 !important;
+      font-weight: 800 !important;
+      border: none !important;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+    }
+
+    .badge-neon-inactive {
+      background-color: rgba(15, 18, 22, 0.85) !important;
+      color: #6b7280 !important;
+      font-weight: 500 !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: none !important;
+    }
+
     .stamp-red {
       border: 2px solid #ef4444;
       color: #ef4444;
@@ -75,6 +92,11 @@
         animation: mobileFade 6s infinite ease-in-out;
       }
     }
+
+    /* 防止觸控拖曳拉條時捲動頁面 */
+    #comparison-slider {
+      touch-action: none;
+    }
   </style>
 </head>
 <body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-emerald-500 selection:text-black">
@@ -83,6 +105,7 @@
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
 
+    <!-- Header 頂部欄位 -->
     <header class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-6 mb-10 gap-4">
       <div>
         <div class="flex items-center space-x-2 text-xs tracking-widest text-emerald-400 font-mono mb-1">
@@ -145,26 +168,26 @@
             <!-- 底圖：代理裝置照片 (PROXY DEVICE) -->
             <img id="detail-device-img" src="" alt="Proxy Device" class="w-full h-full object-cover grayscale contrast-125 absolute inset-0 pointer-events-none">
             
-            <!-- 上圖：本體照片 (PRINCIPAL PHOTO) - 被 Clip 切割 -->
-            <div id="slider-clip-wrapper" class="absolute inset-0 overflow-hidden w-1/2 border-r-2 border-emerald-400">
+            <!-- 上圖：本體照片 (PRINCIPAL PHOTO) - 被 Clip 切割，右側為螢光綠分割線 -->
+            <div id="slider-clip-wrapper" class="absolute inset-0 overflow-hidden w-1/2 border-r-2" style="border-color: #39FF14;">
               <img id="detail-principal-img" src="" alt="Principal" class="w-full h-full object-cover grayscale contrast-125 pointer-events-none" style="max-width: none;">
             </div>
 
             <!-- 可拖曳之原生 Range Slider -->
             <input type="range" min="0" max="100" value="50" id="comparison-slider" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30">
 
-            <!-- 垂直指示線與圓形拖曳圖示 -->
-            <div id="slider-line" class="absolute top-0 bottom-0 w-0.5 bg-emerald-400 pointer-events-none z-20 left-1/2 -translate-x-1/2">
-              <div class="w-6 h-6 rounded-full bg-emerald-400 text-black font-bold text-[10px] flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg">
+            <!-- 垂直指示線與螢光綠圓形拖曳圖示 -->
+            <div id="slider-line" class="absolute top-0 bottom-0 w-0.5 pointer-events-none z-20 left-1/2 -translate-x-1/2" style="background-color: #39FF14; box-shadow: 0 0 10px rgba(57,255,20,0.6);">
+              <div class="w-6 h-6 rounded-full text-black font-extrabold text-[10px] flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg" style="background-color: #39FF14;">
                 ◄►
               </div>
             </div>
 
-            <!-- 左右動態變色對比標籤 -->
-            <span id="badge-principal" class="absolute bottom-2.5 left-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-emerald-400 border-emerald-500/40">
+            <!-- 左右動態螢光綠對比標籤 -->
+            <span id="badge-principal" class="absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-active">
               本體 PRINCIPAL
             </span>
-            <span id="badge-device" class="absolute bottom-2.5 right-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-gray-500 border-gray-800">
+            <span id="badge-device" class="absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive">
               裝置 PROXY DEVICE
             </span>
           </div>
@@ -247,6 +270,7 @@
   </div>
 
   <script>
+    // 個案參與者資料庫
     const PARTICIPANTS = [
       {
         id: "01",
@@ -300,6 +324,7 @@
 
     let breathTimer = null;
 
+    // 1. 高速跳動與 0.5 秒凍結歸零邏輯
     function startOutputFluctuationWithPause() {
       const headerOutputEl = document.getElementById('header-output-counter');
       const detailOutputEl = document.getElementById('detail-output-counter');
@@ -333,6 +358,7 @@
       setInterval(updateCounter, 80);
     }
 
+    // 2. 出生至今呼吸次數估算
     function calculateLifetimeBreaths(birthDateStr) {
       const birthDate = new Date(birthDateStr);
       const now = new Date();
@@ -353,14 +379,22 @@
       }, 4000);
     }
 
-    // 左右對比拉條事件與文字相對動態變色邏輯
+    // 3. 左右圖片對比拉條與標籤動態高亮優化
+    function updateImgDimensions() {
+      const sliderContainer = document.getElementById('detail-slider-container');
+      const principalImg = document.getElementById('detail-principal-img');
+      if (sliderContainer && principalImg) {
+        const width = sliderContainer.clientWidth;
+        const height = sliderContainer.clientHeight;
+        principalImg.style.width = `${width}px`;
+        principalImg.style.height = `${height}px`;
+      }
+    }
+
     function initComparisonSlider() {
       const slider = document.getElementById('comparison-slider');
       const clipWrapper = document.getElementById('slider-clip-wrapper');
       const sliderLine = document.getElementById('slider-line');
-      const principalImg = document.getElementById('detail-principal-img');
-      const sliderContainer = document.getElementById('detail-slider-container');
-
       const badgePrincipal = document.getElementById('badge-principal');
       const badgeDevice = document.getElementById('badge-device');
 
@@ -368,23 +402,14 @@
         clipWrapper.style.width = `${val}%`;
         sliderLine.style.left = `${val}%`;
 
-        // 根據拉條數值 (0~100) 相對變色高亮標籤
+        // 滑動過半時切換螢光綠高亮
         if (val >= 50) {
-          // 本體占比較高 -> 本體亮綠，裝置變暗
-          badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)]";
-          badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-gray-500 border-gray-800";
+          badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-active";
+          badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive";
         } else {
-          // 裝置占比較高 -> 裝置亮綠，本體變暗
-          badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-gray-500 border-gray-800";
-          badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)]";
+          badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive";
+          badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-active";
         }
-      }
-
-      function updateImgDimensions() {
-        const width = sliderContainer.clientWidth;
-        const height = sliderContainer.clientHeight;
-        principalImg.style.width = `${width}px`;
-        principalImg.style.height = `${height}px`;
       }
 
       slider.addEventListener('input', (e) => {
@@ -395,6 +420,7 @@
       updateImgDimensions();
     }
 
+    // 4. 首頁卡片渲染
     function renderPortalCards() {
       const container = document.getElementById('cards-container');
       container.innerHTML = PARTICIPANTS.map(p => {
@@ -438,6 +464,7 @@
       `}).join('');
     }
 
+    // 5. 檢視切換控制
     function showPortal() {
       document.getElementById('portal-view').classList.remove('hidden');
       document.getElementById('detail-view').classList.add('hidden');
@@ -466,14 +493,14 @@
       principalImg.src = pUrl;
       deviceImg.src = dUrl;
 
-      // 重設拉桿至 50%
+      // 重設 Slider 到 50% 位置
       document.getElementById('comparison-slider').value = 50;
       document.getElementById('slider-clip-wrapper').style.width = '50%';
       document.getElementById('slider-line').style.left = '50%';
 
-      // 預設標籤狀態
-      document.getElementById('badge-principal').className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-emerald-400 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.2)]";
-      document.getElementById('badge-device').className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono bg-black/80 backdrop-blur px-2 py-1 rounded border transition-all duration-300 z-20 pointer-events-none text-gray-500 border-gray-800";
+      // 預設高亮「本體」
+      document.getElementById('badge-principal').className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-active";
+      document.getElementById('badge-device').className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-neon-inactive";
 
       const audio = document.getElementById('breathing-audio');
       const source = document.getElementById('audio-source');
@@ -486,19 +513,16 @@
       document.getElementById('detail-view').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      setTimeout(() => {
-        const sliderContainer = document.getElementById('detail-slider-container');
-        const width = sliderContainer.clientWidth;
-        const height = sliderContainer.clientHeight;
-        principalImg.style.width = `${width}px`;
-        principalImg.style.height = `${height}px`;
-      }, 50);
+      // 確保圖片在 Viewport 展開後更新絕對寬度
+      setTimeout(updateImgDimensions, 60);
     }
 
+    // DOM 載入後初始化
     window.addEventListener('DOMContentLoaded', () => {
       renderPortalCards();
       initComparisonSlider();
       startOutputFluctuationWithPause();
+
       const urlParams = new URLSearchParams(window.location.search);
       const targetId = urlParams.get('id');
       if (targetId) showDetail(targetId);

@@ -34,6 +34,7 @@
       box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.9), 0 0 24px 0 rgba(16, 185, 129, 0.08);
     }
 
+    /* 獨自保留卡片按鈕為極光螢光綠 */
     .btn-neon {
       background-color: #39FF14;
       color: #000000;
@@ -56,6 +57,7 @@
       box-shadow: inset 0 0 12px rgba(239, 68, 68, 0.12), 0 0 8px rgba(239, 68, 68, 0.2);
     }
 
+    /* 呼吸計數器跳動動畫（翡翠綠） */
     @keyframes pulse-emerald {
       0%, 100% { color: #10b981; opacity: 1; }
       50% { color: #6ee7b7; opacity: 0.7; }
@@ -67,6 +69,7 @@
 </head>
 <body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-emerald-500 selection:text-black">
 
+  <!-- 頂部氛圍光學光暈 -->
   <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-emerald-950/20 blur-[130px] pointer-events-none rounded-full"></div>
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
@@ -83,9 +86,10 @@
         <p class="text-xs text-gray-500 tracking-wider mt-0.5">當代個人怠工檔案與系統診斷報告 Archive Portal</p>
       </div>
 
+      <!-- 4 個數字持續高速隨機跳動的產出監控 -->
       <div class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 w-full md:w-auto flex justify-between md:block">
         <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
-        <span id="header-output-counter" class="text-emerald-400 font-bold transition-all duration-300">0.000 KG/H</span>
+        <span id="header-output-counter" class="text-emerald-400 font-bold">0.000 KG/H</span>
       </div>
     </header>
 
@@ -126,6 +130,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+          <!-- 照片區域 (3:4 比例) -->
           <div id="detail-image-container" class="aspect-[3/4] bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group flex items-center justify-center">
             <div id="detail-placeholder" class="hidden w-full h-full flex flex-col items-center justify-center bg-gray-900/50 text-gray-600 space-y-2 p-4 text-center">
               <svg class="w-12 h-12 stroke-emerald-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,6 +153,7 @@
                 <span id="detail-anxiety" class="font-bold text-red-400">---</span>
               </div>
               
+              <!-- 呼吸計數器區塊 -->
               <div class="sm:col-span-2 bg-emerald-950/20 p-3.5 rounded border border-emerald-500/20 w-full overflow-hidden">
                 <div class="flex justify-between items-center mb-1.5 gap-2">
                   <span class="text-emerald-400 text-[10px] font-bold tracking-wider break-words leading-tight">
@@ -207,6 +213,7 @@
       </article>
     </main>
 
+    <!-- 頁尾 -->
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
       <p>© SHAOQI SU. ALL RIGHTS RESERVED.</p>
       <p class="mt-2 md:mt-0">ARTWORK BY SHAOQI SU</p>
@@ -264,15 +271,22 @@
 
     let breathTimer = null;
 
-    function startOutputFluctuation() {
+    // 4 個數字每時每刻高速隨機跳動 (每 80ms 刷新一次)
+    function startFastOutputFluctuation() {
       const headerOutputEl = document.getElementById('header-output-counter');
       const detailOutputEl = document.getElementById('detail-output-counter');
 
       setInterval(() => {
-        const randomVal = Math.random() < 0.8 ? "0.000" : `0.00${Math.floor(Math.random() * 9) + 1}`;
+        const d1 = Math.floor(Math.random() * 10);
+        const d2 = Math.floor(Math.random() * 10);
+        const d3 = Math.floor(Math.random() * 10);
+        const d4 = Math.floor(Math.random() * 10);
+        
+        const randomVal = `${d1}.${d2}${d3}${d4}`;
+
         if (headerOutputEl) headerOutputEl.innerText = `${randomVal} KG/H`;
         if (detailOutputEl) detailOutputEl.innerText = `${randomVal} KG/H (NULL)`;
-      }, 800);
+      }, 80);
     }
 
     function calculateLifetimeBreaths(birthDateStr) {
@@ -378,7 +392,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       renderPortalCards();
-      startOutputFluctuation();
+      startFastOutputFluctuation();
       const urlParams = new URLSearchParams(window.location.search);
       const targetId = urlParams.get('id');
       if (targetId) showDetail(targetId);

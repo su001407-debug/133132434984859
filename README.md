@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PROXIMITY IDLE INC. - Archive Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            neon: {
+              DEFAULT: '#39FF14',
+              glow: '#22FF00',
+              dark: '#148000',
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
 
@@ -29,21 +44,22 @@
     }
 
     .glass-card:hover {
-      border-color: rgba(16, 185, 129, 0.4);
+      border-color: rgba(57, 255, 20, 0.5);
       transform: translateY(-4px);
-      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.9), 0 0 24px 0 rgba(16, 185, 129, 0.08);
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.9), 0 0 24px 0 rgba(57, 255, 20, 0.15);
     }
 
-    .btn-emerald {
-      background-color: #10b981;
+    /* 新螢光綠按鈕 */
+    .btn-neon {
+      background-color: #39FF14;
       color: #000000;
-      font-weight: 700;
+      font-weight: 800;
       transition: all 0.2s ease;
     }
 
-    .btn-emerald:hover {
-      background-color: #34d399;
-      box-shadow: 0 0 16px rgba(52, 211, 153, 0.4);
+    .btn-neon:hover {
+      background-color: #55FF33;
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.6);
     }
 
     .stamp-red {
@@ -55,25 +71,26 @@
       box-shadow: inset 0 0 12px rgba(239, 68, 68, 0.12), 0 0 8px rgba(239, 68, 68, 0.2);
     }
 
-    @keyframes pulse-emerald {
-      0%, 100% { color: #10b981; opacity: 1; }
-      50% { color: #6ee7b7; opacity: 0.7; }
+    @keyframes pulse-neon {
+      0%, 100% { color: #39FF14; opacity: 1; text-shadow: 0 0 12px rgba(57,255,20,0.6); }
+      50% { color: #88FF70; opacity: 0.7; text-shadow: 0 0 4px rgba(57,255,20,0.2); }
     }
     .breath-counter-active {
-      animation: pulse-emerald 2s infinite;
+      animation: pulse-neon 2s infinite;
     }
   </style>
 </head>
-<body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-emerald-500 selection:text-black">
+<body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-neon selection:text-black">
 
-  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-emerald-950/20 blur-[130px] pointer-events-none rounded-full"></div>
+  <!-- 頂部高亮螢光綠光暈 -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-[rgba(57,255,20,0.08)] blur-[140px] pointer-events-none rounded-full"></div>
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
 
     <header class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-6 mb-10 gap-4">
       <div>
-        <div class="flex items-center space-x-2 text-xs tracking-widest text-emerald-400 font-mono mb-1">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <div class="flex items-center space-x-2 text-xs tracking-widest text-neon font-mono mb-1">
+          <span class="w-2 h-2 rounded-full bg-neon animate-pulse"></span>
           <span>SYSTEM RUNNING | CLINICAL ARCHIVE PORTAL</span>
         </div>
         <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white font-mono">
@@ -84,7 +101,7 @@
 
       <div class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 w-full md:w-auto flex justify-between md:block">
         <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
-        <span class="text-emerald-400 font-bold">0.000 KG/H</span>
+        <span class="text-neon font-bold">0.000 KG/H</span>
       </div>
     </header>
 
@@ -114,7 +131,7 @@
         
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-800 pb-6 gap-4">
           <div>
-            <span id="detail-id" class="inline-block bg-emerald-500/20 text-emerald-400 text-xs font-mono px-2 py-0.5 rounded border border-emerald-500/30 mb-2">CASE #000</span>
+            <span id="detail-id" class="inline-block bg-[rgba(57,255,20,0.15)] text-neon text-xs font-mono px-2 py-0.5 rounded border border-[rgba(57,255,20,0.3)] mb-2">CASE #000</span>
             <h2 id="detail-name" class="text-2xl md:text-3xl font-bold text-white">---</h2>
             <p id="detail-role" class="text-xs font-mono text-gray-400 mt-1">---</p>
           </div>
@@ -125,15 +142,16 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          <div id="detail-image-container" class="aspect-square bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group flex items-center justify-center">
+          <!-- 照片區域 (改為 3:4 比例) -->
+          <div id="detail-image-container" class="aspect-[3/4] bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group flex items-center justify-center">
             <div id="detail-placeholder" class="hidden w-full h-full flex flex-col items-center justify-center bg-gray-900/50 text-gray-600 space-y-2 p-4 text-center">
-              <svg class="w-12 h-12 stroke-emerald-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-12 h-12 stroke-neon/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span class="text-[10px] font-mono text-gray-500">3D MODEL NO DATA</span>
             </div>
             <img id="detail-image" src="" alt="Sculpture Scan" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500">
-            <span class="absolute bottom-2.5 left-2.5 text-[10px] font-mono text-gray-400 bg-black/60 px-1.5 py-0.5 rounded">3D SCULPTURE SCAN</span>
+            <span class="absolute bottom-2.5 left-2.5 text-[10px] font-mono text-gray-400 bg-black/70 backdrop-blur px-1.5 py-0.5 rounded border border-gray-800">3D SCULPTURE SCAN</span>
           </div>
 
           <div class="md:col-span-2 bg-gray-950/80 rounded-lg p-5 border border-gray-800/80 space-y-4 font-mono text-xs">
@@ -147,13 +165,13 @@
                 <span id="detail-anxiety" class="font-bold text-red-400">---</span>
               </div>
               
-              <div class="sm:col-span-2 bg-emerald-950/20 p-3 rounded border border-emerald-500/20">
+              <div class="sm:col-span-2 bg-[rgba(57,255,20,0.06)] p-3 rounded border border-[rgba(57,255,20,0.25)]">
                 <div class="flex justify-between items-center mb-1">
-                  <span class="text-emerald-400 text-[10px] font-bold">LIFETIME CUMULATIVE RESPIRATION (出生至今生命累積總呼吸數)</span>
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span class="text-neon text-[10px] font-bold tracking-wider">LIFETIME CUMULATIVE RESPIRATION (出生至今生命累積總呼吸數)</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-neon animate-ping"></span>
                 </div>
                 <div class="flex items-baseline space-x-2">
-                  <span id="detail-breath-counter" class="text-xl md:text-2xl font-black text-emerald-400 breath-counter-active tracking-wider">
+                  <span id="detail-breath-counter" class="text-xl md:text-2xl font-black text-neon breath-counter-active tracking-wider">
                     0
                   </span>
                   <span class="text-xs text-gray-400">CYCLES (次)</span>
@@ -163,7 +181,7 @@
 
               <div>
                 <span class="text-gray-500 text-[10px] block">ECONOMIC OUTPUT (產出價值)</span>
-                <span class="font-bold text-emerald-400">0.000 KG/H (NULL)</span>
+                <span class="font-bold text-neon">0.000 KG/H (NULL)</span>
               </div>
             </div>
 
@@ -178,8 +196,8 @@
 
         <div class="bg-gray-950/90 rounded-lg p-5 border border-gray-800 space-y-3 font-mono">
           <div class="flex justify-between items-center text-xs">
-            <span class="text-emerald-400 font-bold flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-neon font-bold flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-neon animate-pulse"></span>
               PNEUMATIC AUDIO MONITOR (代理呼吸音檔監控)
             </span>
             <span class="text-[10px] text-gray-500">48kHz / RAW RECORDING</span>
@@ -194,7 +212,7 @@
         <div class="bg-gray-950/90 rounded-lg p-6 border border-gray-800/80 relative">
           <span class="text-[10px] font-mono text-gray-500 tracking-widest absolute top-3 right-4">STATEMENT ARCHIVE</span>
           <h3 class="text-xs font-mono text-gray-400 tracking-wider mb-3">【本體焦慮自白紀錄】</h3>
-          <blockquote id="detail-statement" class="text-sm md:text-base text-gray-200 leading-relaxed font-sans italic border-l-2 border-emerald-500/60 pl-4 py-1">
+          <blockquote id="detail-statement" class="text-sm md:text-base text-gray-200 leading-relaxed font-sans italic border-l-2 border-neon/60 pl-4 py-1">
             "---"
           </blockquote>
         </div>
@@ -248,7 +266,7 @@
         id: "04",
         name: "參與者 D (待定)",
         role: "代理呼吸員 04 號",
-        target: "參與者 D (本體)",
+        target: "代理個案 04 號",
         anxiety: "95.0% (準備中)",
         birthDate: "2005-01-01",
         imageUrl: "",
@@ -284,24 +302,40 @@
       container.innerHTML = PARTICIPANTS.map(p => {
         const imgSrc = p.imageUrl ? `${p.imageUrl}?v=${Date.now()}` : '';
         return `
-        <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl p-5 cursor-pointer flex flex-col justify-between space-y-4">
-          <div class="space-y-3">
-            <div class="aspect-square rounded-lg overflow-hidden bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-700">
-              ${p.imageUrl ? `<img src="${imgSrc}" class="w-full h-full object-cover grayscale contrast-125 hover:scale-105 transition-transform duration-300">` : `
-                <svg class="w-10 h-10 stroke-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl overflow-hidden cursor-pointer flex flex-col justify-between relative group">
+          <!-- 滿版 3:4 照片容器 -->
+          <div class="aspect-[3/4] w-full bg-gray-950 relative overflow-hidden flex items-center justify-center">
+            ${p.imageUrl ? `<img src="${imgSrc}" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500">` : `
+              <div class="flex flex-col items-center space-y-2 text-gray-700">
+                <svg class="w-12 h-12 stroke-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-              `}
+                <span class="text-[10px] font-mono text-gray-600">NO SCAN DATA</span>
+              </div>
+            `}
+            
+            <!-- 漸層黑色遮罩 (提升覆蓋文字與按鈕可讀性) -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+
+            <!-- 卡片頂部編號 -->
+            <div class="absolute top-3 left-3 bg-black/60 backdrop-blur px-2 py-0.5 rounded border border-gray-800">
+              <span class="text-[10px] font-mono text-neon tracking-wider">CASE #${p.id}</span>
             </div>
-            <div>
-              <span class="text-[10px] font-mono text-emerald-400 tracking-wider">CASE #${p.id}</span>
-              <h3 class="text-lg font-bold text-white">${p.name}</h3>
-              <p class="text-xs text-gray-400 font-mono">${p.role}</p>
+
+            <!-- 卡片下半部文字資訊 -->
+            <div class="absolute bottom-14 left-4 right-4 space-y-0.5">
+              <h3 class="text-lg font-bold text-white tracking-wide">${p.name}</h3>
+              <p class="text-xs text-gray-300 font-mono">${p.role}</p>
+            </div>
+
+            <!-- 覆蓋在照片下方的綠色按鈕 -->
+            <div class="absolute bottom-3 left-3 right-3">
+              <button class="btn-neon w-full py-2 text-xs rounded border border-neon/50 shadow-lg flex items-center justify-center space-x-1">
+                <span>檢視個案診斷</span>
+                <span>→</span>
+              </button>
             </div>
           </div>
-          <button class="btn-emerald w-full py-2 text-xs rounded border border-emerald-400/40">
-            檢視個案診斷 →
-          </button>
         </div>
       `}).join('');
     }

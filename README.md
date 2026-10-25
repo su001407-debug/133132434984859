@@ -36,7 +36,7 @@
       box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.9), 0 0 24px 0 rgba(16, 185, 129, 0.08);
     }
 
-    /* 螢光綠強烈點綴 button */
+    /* 螢光綠點綴按鈕 */
     .btn-emerald {
       background-color: #10b981;
       color: #000000;
@@ -113,7 +113,7 @@
       </div>
     </main>
 
-    <!-- 2. 第一版診斷檔案詳情頁（含即時跳動累積呼吸次數與呼吸音檔） -->
+    <!-- 2. 診斷檔案詳情頁 -->
     <main id="detail-view" class="hidden space-y-6">
       
       <!-- 返回按鈕 -->
@@ -139,13 +139,18 @@
           </div>
         </div>
 
-        <!-- 照片 & 診斷數據面板 -->
+        <!-- 數據面板區塊 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
           <!-- 照片區域 -->
-          <div class="aspect-square bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group">
-            <img id="detail-image" src="" alt="Sculpture" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            <span class="absolute bottom-2.5 left-2.5 text-[10px] font-mono text-gray-400">3D SCULPTURE SCAN</span>
+          <div id="detail-image-container" class="aspect-square bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative group flex items-center justify-center">
+            <div id="detail-placeholder" class="hidden w-full h-full flex flex-col items-center justify-center bg-gray-900/50 text-gray-600 space-y-2 p-4 text-center">
+              <svg class="w-12 h-12 stroke-emerald-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span class="text-[10px] font-mono text-gray-500">3D MODEL NO DATA</span>
+            </div>
+            <img id="detail-image" src="" alt="Sculpture Scan" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-500">
+            <span class="absolute bottom-2.5 left-2.5 text-[10px] font-mono text-gray-400 bg-black/60 px-1.5 py-0.5 rounded">3D SCULPTURE SCAN</span>
           </div>
 
           <!-- 臨床數據欄 -->
@@ -160,7 +165,7 @@
                 <span id="detail-anxiety" class="font-bold text-red-400">---</span>
               </div>
               
-              <!-- 核心更動：生命總累積呼吸次數即時跳動顯示 -->
+              <!-- 生命總累積呼吸次數即時跳動顯示 -->
               <div class="sm:col-span-2 bg-emerald-950/20 p-3 rounded border border-emerald-500/20">
                 <div class="flex justify-between items-center mb-1">
                   <span class="text-emerald-400 text-[10px] font-bold">LIFETIME CUMULATIVE RESPIRATION (出生至今生命累積總呼吸數)</span>
@@ -172,7 +177,7 @@
                   </span>
                   <span class="text-xs text-gray-400">CYCLES (次)</span>
                 </div>
-                <p id="detail-birth-info" class="text-[10px] text-gray-500 mt-1">自 2000-01-01 起算，依成人在平靜狀態平均每分鐘 15 次呼吸即時即時動態估算</p>
+                <p id="detail-birth-info" class="text-[10px] text-gray-500 mt-1">自出生日期起算，依成人平靜狀態每分鐘 15 次呼吸即時動態估算</p>
               </div>
 
               <div>
@@ -221,72 +226,69 @@
     <!-- 頁尾 -->
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
       <p>© PROXIMITY IDLE INC. ALL RIGHTS RESERVED.</p>
-      <p class="mt-2 md:mt-0">ARTWORK BY SHAOQI SU </p>
+      <p class="mt-2 md:mt-0">ARTWORK BY ANDREW CHEN</p>
     </footer>
 
   </div>
 
   <script>
-    // 4 位參與者資料（包含出生年月日以計算累積總呼吸數）
+    // 參與者資料（帶入真實照片與生日）
     const PARTICIPANTS = [
       {
         id: "01",
-        name: "張簡庭",
+        name: "蘇Ｏ齊",
         role: "代理呼吸員 01 號",
-        target: "張簡庭 (本體)",
+        target: "蘇Ｏ齊 (本體)",
         anxiety: "87.4% (極高)",
-        birthDate: "2000-05-14",
-        imageUrl: "https://load.tw/StbPj4",
-        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        birthDate: "2005-02-26",
+        imageUrl: "IMG_0279.jpg",
+        audioUrl: "breath01.mp3",
         statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我需要一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
       },
       {
         id: "02",
-        name: "參與者 B",
+        name: "張Ｏ禎",
         role: "代理呼吸員 02 號",
-        target: "參與者 B (本體)",
+        target: "張Ｏ禎 (本體)",
         anxiety: "91.2% (極高)",
-        birthDate: "1998-11-03",
-        imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600",
-        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+        birthDate: "2005-07-10",
+        imageUrl: "IMG_0268.jpg",
+        audioUrl: "breath02.mp3",
         statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我需要這台機器幫我把『休息』當成一項公事來認真執行。"
       },
       {
         id: "03",
-        name: "參與者 C",
+        name: "林Ｏ岑",
         role: "代理呼吸員 03 號",
-        target: "參與者 C (本體)",
+        target: "林Ｏ岑 (本體)",
         anxiety: "79.8% (高)",
-        birthDate: "2001-08-22",
-        imageUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600",
-        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+        birthDate: "2005-06-09",
+        imageUrl: "IMG_0269.jpg",
+        audioUrl: "breath03.mp3",
         statement: "休假對我來說不是放鬆，而是一場審判。躺在床上滑手機的每一分鐘，都在盤算著自己少做了多少事。如果一定要有人在那裡放空，那就讓這顆塑膠薄膜包覆的人頭替我坐牢吧。"
       },
       {
         id: "04",
-        name: "參與者 D",
+        name: "參與者 D (待定)",
         role: "代理呼吸員 04 號",
         target: "參與者 D (本體)",
-        anxiety: "95.0% (危險臨界)",
-        birthDate: "1999-03-30",
-        imageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600",
-        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
-        statement: "我連休息都想要制定一套 SOP。這種病態的強迫症讓我意識到，我已經失去了『自然停下』的能力。現在，這個雕塑成了我唯一的替身，它負責呼吸，我負責繼續焦慮。"
+        anxiety: "95.0% (準備中)",
+        birthDate: "2005-01-01",
+        imageUrl: "",
+        audioUrl: "breath04.mp3",
+        statement: "檔案建立中，等待資料輸入..."
       }
     ];
 
     let breathTimer = null;
 
-    // 計算自出生年月日至今的總呼吸數（以每分鐘 15 次呼吸，即每秒 0.25 次估算）
     function calculateLifetimeBreaths(birthDateStr) {
       const birthDate = new Date(birthDateStr);
       const now = new Date();
       const diffInSeconds = (now - birthDate) / 1000;
-      // 每秒 0.25 次 (每分鐘 15 次)
       return Math.floor(diffInSeconds * 0.25);
     }
 
-    // 動態啟動計數器（每 4 秒加 1 次呼吸）
     function startBreathCounter(birthDateStr) {
       if (breathTimer) clearInterval(breathTimer);
       
@@ -294,77 +296,16 @@
       const counterEl = document.getElementById('detail-breath-counter');
       counterEl.innerText = currentBreaths.toLocaleString();
 
-      // 每 4 秒自動 +1 次呼吸（模擬成人的呼吸頻率）
       breathTimer = setInterval(() => {
         currentBreaths += 1;
         counterEl.innerText = currentBreaths.toLocaleString();
       }, 4000);
     }
 
-    // 渲染目錄卡片
     function renderPortalCards() {
       const container = document.getElementById('cards-container');
       container.innerHTML = PARTICIPANTS.map(p => `
         <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl p-5 cursor-pointer flex flex-col justify-between space-y-4">
           <div class="space-y-3">
-            <div class="aspect-square rounded-lg overflow-hidden bg-gray-950 border border-gray-800">
-              <img src="${p.imageUrl}" alt="${p.name}" class="w-full h-full object-cover grayscale contrast-125 hover:scale-105 transition-transform duration-300">
-            </div>
-            <div>
-              <span class="text-[10px] font-mono text-emerald-400 tracking-wider">CASE #${p.id}</span>
-              <h3 class="text-lg font-bold text-white">${p.name}</h3>
-              <p class="text-xs text-gray-400 font-mono">${p.role}</p>
-            </div>
-          </div>
-          <button class="btn-emerald w-full py-2 text-xs rounded border border-emerald-400/40">
-            檢視個案診斷 →
-          </button>
-        </div>
-      `).join('');
-    }
-
-    // 顯示門戶
-    function showPortal() {
-      document.getElementById('portal-view').classList.remove('hidden');
-      document.getElementById('detail-view').classList.add('hidden');
-      if (breathTimer) clearInterval(breathTimer);
-      const audio = document.getElementById('breathing-audio');
-      audio.pause();
-    }
-
-    // 顯示個人診斷檔案
-    function showDetail(id) {
-      const data = PARTICIPANTS.find(p => p.id === id) || PARTICIPANTS[0];
-      
-      document.getElementById('detail-id').innerText = `CASE #${data.id}`;
-      document.getElementById('detail-name').innerText = data.name;
-      document.getElementById('detail-role').innerText = data.role;
-      document.getElementById('detail-target').innerText = data.target;
-      document.getElementById('detail-anxiety').innerText = data.anxiety;
-      document.getElementById('detail-image').src = data.imageUrl;
-      document.getElementById('detail-statement').innerText = `"${data.statement}"`;
-      document.getElementById('detail-birth-info').innerText = `自出生日期 ${data.birthDate} 起算，依成人平靜狀態每分鐘 15 次呼吸即時動態估算`;
-
-      // 載入呼吸音檔
-      const audio = document.getElementById('breathing-audio');
-      const source = document.getElementById('audio-source');
-      source.src = data.audioUrl;
-      audio.load();
-
-      // 啟動生命呼吸次數計數器
-      startBreathCounter(data.birthDate);
-
-      document.getElementById('portal-view').classList.add('hidden');
-      document.getElementById('detail-view').classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      renderPortalCards();
-      const urlParams = new URLSearchParams(window.location.search);
-      const targetId = urlParams.get('id');
-      if (targetId) showDetail(targetId);
-    });
-  </script>
-</body>
-</html>
+            <div class="aspect-square rounded-lg overflow-hidden bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-700">
+              ${p.

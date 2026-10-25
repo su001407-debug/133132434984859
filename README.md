@@ -236,9 +236,9 @@
     const PARTICIPANTS = [
       {
         id: "01",
-        name: "蘇Ｏ齊",
+        name: "參與者 A",
         role: "代理呼吸員 01 號",
-        target: "蘇Ｏ齊 (本體)",
+        target: "參與者 A (本體)",
         anxiety: "87.4% (極高)",
         birthDate: "2005-02-26",
         imageUrl: "IMG_0279.jpg",
@@ -247,9 +247,9 @@
       },
       {
         id: "02",
-        name: "張Ｏ禎",
+        name: "參與者 B",
         role: "代理呼吸員 02 號",
-        target: "張Ｏ禎 (本體)",
+        target: "參與者 B (本體)",
         anxiety: "91.2% (極高)",
         birthDate: "2005-07-10",
         imageUrl: "IMG_0268.jpg",
@@ -258,9 +258,9 @@
       },
       {
         id: "03",
-        name: "林Ｏ岑",
+        name: "參與者 C",
         role: "代理呼吸員 03 號",
-        target: "林Ｏ岑 (本體)",
+        target: "參與者 C (本體)",
         anxiety: "79.8% (高)",
         birthDate: "2005-06-09",
         imageUrl: "IMG_0269.jpg",
@@ -308,4 +308,73 @@
         <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl p-5 cursor-pointer flex flex-col justify-between space-y-4">
           <div class="space-y-3">
             <div class="aspect-square rounded-lg overflow-hidden bg-gray-950 border border-gray-800 flex items-center justify-center text-gray-700">
-              ${p.
+              ${p.imageUrl ? `<img src="${p.imageUrl}" class="w-full h-full object-cover grayscale contrast-125 hover:scale-105 transition-transform duration-300">` : `
+                <svg class="w-10 h-10 stroke-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              `}
+            </div>
+            <div>
+              <span class="text-[10px] font-mono text-emerald-400 tracking-wider">CASE #${p.id}</span>
+              <h3 class="text-lg font-bold text-white">${p.name}</h3>
+              <p class="text-xs text-gray-400 font-mono">${p.role}</p>
+            </div>
+          </div>
+          <button class="btn-emerald w-full py-2 text-xs rounded border border-emerald-400/40">
+            檢視個案診斷 →
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function showPortal() {
+      document.getElementById('portal-view').classList.remove('hidden');
+      document.getElementById('detail-view').classList.add('hidden');
+      if (breathTimer) clearInterval(breathTimer);
+      const audio = document.getElementById('breathing-audio');
+      audio.pause();
+    }
+
+    function showDetail(id) {
+      const data = PARTICIPANTS.find(p => p.id === id) || PARTICIPANTS[0];
+      
+      document.getElementById('detail-id').innerText = `CASE #${data.id}`;
+      document.getElementById('detail-name').innerText = data.name;
+      document.getElementById('detail-role').innerText = data.role;
+      document.getElementById('detail-target').innerText = data.target;
+      document.getElementById('detail-anxiety').innerText = data.anxiety;
+      document.getElementById('detail-statement').innerText = `"${data.statement}"`;
+      document.getElementById('detail-birth-info').innerText = `自出生日期 ${data.birthDate} 起算，依成人平靜狀態每分鐘 15 次呼吸即時動態估算`;
+
+      const imgEl = document.getElementById('detail-image');
+      const placeholderEl = document.getElementById('detail-placeholder');
+      if (data.imageUrl) {
+        imgEl.src = data.imageUrl;
+        imgEl.classList.remove('hidden');
+        placeholderEl.classList.add('hidden');
+      } else {
+        imgEl.classList.add('hidden');
+        placeholderEl.classList.remove('hidden');
+      }
+
+      const audio = document.getElementById('breathing-audio');
+      const source = document.getElementById('audio-source');
+      source.src = data.audioUrl;
+      audio.load();
+
+      startBreathCounter(data.birthDate);
+
+      document.getElementById('portal-view').classList.add('hidden');
+      document.getElementById('detail-view').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderPortalCards();
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetId = urlParams.get('id');
+      if (targetId) showDetail(targetId);
+    });
+  </script>
+</body>
+</html>

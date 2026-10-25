@@ -267,7 +267,7 @@
         anxiety: "91.2% (極高)",
         birthDate: "2005-07-10",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg",
-        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg", // 可替換為裝置照片網址
+        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-4fe6db64-e06b-4bb1-a9b3-ee30ff2646a6.jpg", // 可替換為裝置照片網址
         audioUrl: "breath02.mp3",
         statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我需要這台機器幫我把『休息』當成一項公事來認真執行。"
       },

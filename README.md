@@ -168,17 +168,17 @@
             <!-- 底圖：代理裝置照片 (PROXY DEVICE) -->
             <img id="detail-device-img" src="" alt="Proxy Device" class="w-full h-full object-cover grayscale contrast-125 absolute inset-0 pointer-events-none">
             
-            <!-- 上圖：本體照片 (PRINCIPAL PHOTO) - 被 Clip 切割，右側為螢光綠分割線 -->
-            <div id="slider-clip-wrapper" class="absolute inset-0 overflow-hidden w-1/2 border-r-2" style="border-color: #39FF14;">
+            <!-- 上圖：本體照片 (PRINCIPAL PHOTO) - 被 Clip 切割，右側為白色分割線 -->
+            <div id="slider-clip-wrapper" class="absolute inset-0 overflow-hidden w-1/2 border-r-2 border-white">
               <img id="detail-principal-img" src="" alt="Principal" class="w-full h-full object-cover grayscale contrast-125 pointer-events-none" style="max-width: none;">
             </div>
 
             <!-- 可拖曳之原生 Range Slider -->
             <input type="range" min="0" max="100" value="50" id="comparison-slider" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30">
 
-            <!-- 垂直指示線與螢光綠圓形拖曳圖示 -->
-            <div id="slider-line" class="absolute top-0 bottom-0 w-0.5 pointer-events-none z-20 left-1/2 -translate-x-1/2" style="background-color: #39FF14; box-shadow: 0 0 10px rgba(57,255,20,0.6);">
-              <div class="w-6 h-6 rounded-full text-black font-extrabold text-[10px] flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg" style="background-color: #39FF14;">
+            <!-- 垂直指示線與白色圓形拖曳圖示 -->
+            <div id="slider-line" class="absolute top-0 bottom-0 w-0.5 bg-white pointer-events-none z-20 left-1/2 -translate-x-1/2 shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+              <div class="w-6 h-6 rounded-full bg-white text-black font-extrabold text-[10px] flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg">
                 ◄►
               </div>
             </div>

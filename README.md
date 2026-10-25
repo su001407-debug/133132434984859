@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>理想狀態. - Archive Portal</title>
+  <title>理想狀態 - Archive Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
@@ -57,7 +57,7 @@
       box-shadow: inset 0 0 12px rgba(239, 68, 68, 0.12), 0 0 8px rgba(239, 68, 68, 0.2);
     }
 
-    /* 呼吸計數器跳動動畫（還原為原版翡翠綠） */
+    /* 呼吸計數器跳動動畫（翡翠綠） */
     @keyframes pulse-emerald {
       0%, 100% { color: #10b981; opacity: 1; }
       50% { color: #6ee7b7; opacity: 0.7; }
@@ -69,7 +69,7 @@
 </head>
 <body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-emerald-500 selection:text-black">
 
-  <!-- 頂部氛圍光學光暈（還原為原版） -->
+  <!-- 頂部氛圍光學光暈 -->
   <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-emerald-950/20 blur-[130px] pointer-events-none rounded-full"></div>
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
@@ -81,7 +81,7 @@
           <span>SYSTEM RUNNING | CLINICAL ARCHIVE PORTAL</span>
         </div>
         <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white font-mono">
-          PROXIMITY IDLE INC.
+          理想狀態
         </h1>
         <p class="text-xs text-gray-500 tracking-wider mt-0.5">當代個人怠工檔案與系統診斷報告 Archive Portal</p>
       </div>
@@ -152,7 +152,7 @@
                 <span id="detail-anxiety" class="font-bold text-red-400">---</span>
               </div>
               
-              <!-- 修正防防溢出與自適應換行的呼吸計數器區塊 -->
+              <!-- 呼吸計數器區塊 -->
               <div class="sm:col-span-2 bg-emerald-950/20 p-3.5 rounded border border-emerald-500/20 w-full overflow-hidden">
                 <div class="flex justify-between items-center mb-1.5 gap-2">
                   <span class="text-emerald-400 text-[10px] font-bold tracking-wider break-words leading-tight">
@@ -212,9 +212,10 @@
       </article>
     </main>
 
+    <!-- 頁尾 -->
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
-      <p>© PROXIMITY IDLE INC. ALL RIGHTS RESERVED.</p>
-      <p class="mt-2 md:mt-0">ARTWORK BY SHAOQI SU </p>
+      <p>© SHAOQI SU. ALL RIGHTS RESERVED.</p>
+      <p class="mt-2 md:mt-0">ARTWORK BY ANDREW SU </p>
     </footer>
 
   </div>

@@ -142,7 +142,7 @@
     <!-- 2. 診斷檔案詳情頁 -->
     <main id="detail-view" class="hidden space-y-6">
       
-      <!-- 返回檔案目錄按鈕（已改回最初的深灰低調樣式） -->
+      <!-- 返回檔案目錄按鈕 -->
       <button onclick="showPortal()" class="inline-flex items-center space-x-2 text-xs text-gray-300 hover:text-white transition-colors bg-gray-900/90 hover:bg-gray-800 px-4 py-2 rounded border border-gray-700">
         <span>←</span>
         <span>返回檔案目錄 (RETURN TO DIRECTORY)</span>
@@ -150,19 +150,27 @@
 
       <article class="glass-card rounded-xl p-6 md:p-10 relative space-y-6">
         
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-800 pb-6 gap-4">
-          <div>
-            <span id="detail-id" class="inline-block text-white text-xs font-mono mb-2">CASE #000</span>
-            <h2 id="detail-name" class="text-2xl md:text-3xl font-bold text-white">---</h2>
-            <p id="detail-role" class="text-xs font-mono text-gray-400 mt-1">---</p>
+        <!-- 個案 Header + 無邊框單行系統說明說明文字（位在橫線上邊） -->
+        <div class="border-b border-gray-800 pb-6 space-y-3">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <span id="detail-id" class="inline-block text-white text-xs font-mono mb-2">CASE #000</span>
+              <h2 id="detail-name" class="text-2xl md:text-3xl font-bold text-white">---</h2>
+              <p id="detail-role" class="text-xs font-mono text-gray-400 mt-1">---</p>
+            </div>
+
+            <div class="stamp-red px-4 py-1.5 rounded text-xs font-bold font-mono tracking-widest uppercase shrink-0">
+              AUTHORIZED IDLE
+            </div>
           </div>
 
-          <div class="stamp-red px-4 py-1.5 rounded text-xs font-bold font-mono tracking-widest uppercase">
-            AUTHORIZED IDLE
-          </div>
+          <!-- 無邊框說明文字，放在代理呼吸員下方、橫線上方 -->
+          <p class="text-[10px] font-mono text-gray-400 pt-1 tracking-wide">
+            [SYSTEM NOTE] 個人特徵（髮型/皮肉）已於代理化過程中剝離，僅保留骨架結構與氣動呼吸腔體。
+          </p>
         </div>
 
-        <!-- 照片對比與數據面板區域 (頂部與底部精準齊高) -->
+        <!-- 照片對比與數據面板區域 (高度拉平對齊) -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           
           <!-- 左側：照片對比區 -->
@@ -240,13 +248,6 @@
           </div>
         </div>
 
-        <!-- 系統註解說明標籤（改為單一行不換行，橫跨左右對齊） -->
-        <div class="w-full bg-gray-950/80 px-4 py-2.5 rounded-lg border border-gray-800/80 overflow-x-auto">
-          <p class="text-[10px] font-mono text-gray-400 whitespace-nowrap">
-            [SYSTEM NOTE] 個人特徵（髮型/皮肉）已於代理化過程中剝離，僅保留骨架結構與氣動呼吸腔體。
-          </p>
-        </div>
-
         <div class="bg-gray-950/90 rounded-lg p-5 border border-gray-800 space-y-3 font-mono">
           <div class="flex justify-between items-center text-xs">
             <span class="text-emerald-400 font-bold flex items-center gap-2">
@@ -303,7 +304,7 @@
         anxiety: "91.2% (極高)",
         birthDate: "2005-07-10",
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg",
-        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-26-22428016-9d09-42f9-aba6-76b7c504ee4e.jpg",
+        deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-9afd07b5-083e-4c4d-a816-f5d9519e8f92.jpg",
         audioUrl: "breath02.mp3",
         statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我需要這台機器幫我把『休息』當成一項公事來認真執行。"
       },

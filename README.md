@@ -294,7 +294,7 @@
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg",
         deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-32f03bb8-e07f-4f01-97b6-a7cdcd3b1edd.jpg",
         audioUrl: "breath01.mp3",
-        statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我需要一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
+        statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我 need 一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
       },
       {
         id: "02",
@@ -436,7 +436,7 @@
       updateImgDimensions();
     }
 
-    // 4. 首頁卡片渲染（CASE 文字增加半透明黑色襯底）
+    // 4. 首頁卡片渲染（CASE 無邊框、純半透明黑色襯底）
     function renderPortalCards() {
       const container = document.getElementById('cards-container');
       container.innerHTML = PARTICIPANTS.map(p => {
@@ -460,9 +460,9 @@
             
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none"></div>
 
-            <!-- CASE #XX 左上角半透明黑色襯底 -->
+            <!-- CASE #XX 左上角：無邊框、純半透明黑色襯底 -->
             <div class="absolute top-3 left-3 pointer-events-none z-10">
-              <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/60 backdrop-blur-md px-2.5 py-1 rounded border border-gray-800/60 shadow-lg inline-block">
+              <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/60 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block">
                 CASE #${p.id}
               </span>
             </div>

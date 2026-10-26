@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -17,7 +18,7 @@
 
     .bg-grid-dark {
       background-size: 32px 32px;
-      background-image: 
+      background-image:
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     }
@@ -93,6 +94,7 @@
       0%, 100% { color: #10b981; opacity: 1; }
       50% { color: #6ee7b7; opacity: 0.7; }
     }
+
     .breath-counter-active {
       animation: pulse-emerald 2s infinite;
     }
@@ -102,6 +104,7 @@
       55%, 95% { opacity: 1; }
       100% { opacity: 0; }
     }
+
     @media (hover: none) {
       .mobile-auto-fade {
         animation: mobileFade 6s infinite ease-in-out;
@@ -112,9 +115,18 @@
     }
 
     @keyframes mobileBgFade {
-      0%, 45% { background-color: rgba(0,0,0,0.7); backdrop-filter: blur(6px); }
-      55%, 95% { background-color: transparent; backdrop-filter: none; }
-      100% { background-color: rgba(0,0,0,0.7); backdrop-filter: blur(6px); }
+      0%, 45% {
+        background-color: rgba(0,0,0,0.7);
+        backdrop-filter: blur(6px);
+      }
+      55%, 95% {
+        background-color: transparent;
+        backdrop-filter: none;
+      }
+      100% {
+        background-color: rgba(0,0,0,0.7);
+        backdrop-filter: blur(6px);
+      }
     }
 
     /* 防止觸控拖曳拉條時捲動頁面 */
@@ -126,10 +138,12 @@
     .modal-backdrop {
       transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .modal-backdrop.hidden-modal {
       opacity: 0;
       pointer-events: none;
     }
+
     .modal-backdrop.active-modal {
       opacity: 1;
       pointer-events: auto;
@@ -138,23 +152,26 @@
     .modal-content {
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .modal-backdrop.hidden-modal .modal-content {
       transform: scale(0.94) translateY(12px);
       opacity: 0;
     }
+
     .modal-backdrop.active-modal .modal-content {
       transform: scale(1) translateY(0);
       opacity: 1;
     }
   </style>
 </head>
+
 <body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-emerald-500 selection:text-black">
 
   <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-emerald-950/20 blur-[130px] pointer-events-none rounded-full"></div>
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
 
-    <!-- Header 頂部欄位（作品理念按鈕為白色） -->
+    <!-- Header 頂部欄位 -->
     <header class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-6 mb-10 gap-4">
       <div>
         <div class="flex items-center space-x-2 text-xs tracking-widest text-emerald-400 font-mono mb-1">
@@ -168,16 +185,19 @@
       </div>
 
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
-        <!-- 作品理念按鈕：白色極簡樣式 -->
+
+        <!-- 作品理念按鈕 -->
         <button onclick="openConceptModal()" class="btn-white inline-flex items-center justify-center space-x-2 text-xs px-4 py-2.5 rounded shadow-lg font-mono">
           <span>ⓘ</span>
           <span>作品理念 (CONCEPT)</span>
         </button>
 
-        <div class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 flex justify-between sm:block">
+        <!-- 修改：新增 ID，讓個人檔案頁可以隱藏此區塊 -->
+        <div id="header-output-box" class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 flex justify-between sm:block">
           <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
           <span id="header-output-counter" class="text-emerald-400 font-bold">0.000 KG/H</span>
         </div>
+
       </div>
     </header>
 
@@ -197,7 +217,7 @@
 
     <!-- 2. 診斷檔案詳情頁 -->
     <main id="detail-view" class="hidden space-y-6">
-      
+
       <!-- 返回檔案目錄按鈕 -->
       <button onclick="showPortal()" class="inline-flex items-center space-x-2 text-xs text-gray-300 hover:text-white transition-colors bg-gray-900/90 hover:bg-gray-800 px-4 py-2 rounded border border-gray-700">
         <span>←</span>
@@ -205,8 +225,8 @@
       </button>
 
       <article class="glass-card rounded-xl p-6 md:p-10 relative space-y-6">
-        
-        <!-- 個案 Header + 緊貼於橫線正上方的系統說明文字 -->
+
+        <!-- 個案 Header -->
         <div class="border-b border-gray-800 pb-2 space-y-1">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
             <div>
@@ -220,30 +240,29 @@
             </div>
           </div>
 
-          <!-- 說明文字緊貼橫線之上 -->
           <p class="text-[10px] font-mono text-gray-400 tracking-wide pb-1">
             [SYSTEM NOTE] 個人特徵（髮型/皮肉）已於代理化過程中剝離。
           </p>
         </div>
 
-        <!-- 照片對比與數據面板區域 -->
+        <!-- 照片對比與數據面板 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-          
+
           <!-- 左側：照片對比區 -->
           <div id="detail-slider-container" class="w-full h-full min-h-[360px] md:min-h-full bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative select-none group">
-            
-            <!-- 底圖：代理裝置照片 (PROXY DEVICE) -->
+
+            <!-- 底圖：代理裝置照片 -->
             <img id="detail-device-img" src="" alt="Proxy Device" class="w-full h-full object-cover grayscale contrast-125 absolute inset-0 pointer-events-none z-0">
-            
-            <!-- 上圖：本體照片 (PRINCIPAL PHOTO) -->
+
+            <!-- 上圖：本體照片 -->
             <div id="slider-clip-wrapper" class="absolute inset-0 overflow-hidden w-1/2 border-r-2 border-emerald-500 z-10">
               <img id="detail-principal-img" src="" alt="Principal" class="w-full h-full object-cover grayscale contrast-125 pointer-events-none" style="max-width: none;">
             </div>
 
-            <!-- 可拖曳之原生 Range Slider -->
+            <!-- 可拖曳 Range Slider -->
             <input type="range" min="0" max="100" value="50" id="comparison-slider" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30">
 
-            <!-- 垂直指示線與一般綠色圓形拖曳圖示 -->
+            <!-- 垂直指示線 -->
             <div id="slider-line" class="absolute top-0 bottom-0 w-0.5 bg-emerald-500 pointer-events-none z-20 left-1/2 -translate-x-1/2 shadow-[0_0_8px_rgba(16,185,129,0.5)]">
               <div class="w-6 h-6 rounded-full bg-emerald-500 text-black font-extrabold text-[10px] flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg">
                 ◄►
@@ -254,6 +273,7 @@
             <span id="badge-principal" class="absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-inactive">
               本體 PRINCIPAL
             </span>
+
             <span id="badge-device" class="absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-inactive">
               裝置 PROXY DEVICE
             </span>
@@ -261,38 +281,46 @@
 
           <!-- 右側：數據面板 -->
           <div class="md:col-span-2 bg-gray-950/80 rounded-lg p-5 border border-gray-800/80 flex flex-col justify-between space-y-4 font-mono text-xs overflow-hidden">
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-gray-800/80 pb-4">
+
               <div>
                 <span class="text-gray-500 text-[10px] block">SERVICE TARGET (代理對象)</span>
                 <span id="detail-target" class="font-bold text-gray-200">---</span>
               </div>
+
               <div>
                 <span class="text-gray-500 text-[10px] block">ANXIETY INDEX (焦慮指數)</span>
                 <span id="detail-anxiety" class="font-bold text-red-400">---</span>
               </div>
-              
+
               <div class="sm:col-span-2 bg-emerald-950/20 p-3.5 rounded border border-emerald-500/20 w-full overflow-hidden">
+
                 <div class="flex justify-between items-center mb-1.5 gap-2">
                   <span class="text-emerald-400 text-[10px] font-bold tracking-wider break-words leading-tight">
                     LIFETIME CUMULATIVE RESPIRATION (出生至今生命累積總呼吸數)
                   </span>
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
                 </div>
+
                 <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 my-1">
                   <span id="detail-breath-counter" class="text-lg sm:text-xl md:text-2xl font-black text-emerald-400 breath-counter-active tracking-wider break-all">
                     0
                   </span>
                   <span class="text-[11px] text-gray-400 shrink-0">CYCLES (次)</span>
                 </div>
+
                 <p id="detail-birth-info" class="text-[10px] text-gray-500 mt-1 leading-normal break-words">
                   自出生日期起算，依成人平靜狀態每分鐘 15 次呼吸即時動態估算
                 </p>
               </div>
 
+              <!-- 個人檔案內的 ECONOMIC OUTPUT 保留 -->
               <div>
                 <span class="text-gray-500 text-[10px] block">ECONOMIC OUTPUT (產出價值)</span>
                 <span id="detail-output-counter" class="font-bold text-emerald-400">0.000 KG/H (NULL)</span>
               </div>
+
             </div>
 
             <div>
@@ -301,9 +329,11 @@
                 本體因無法忍受空閒狀態產生之罪惡感，現已將「維持最低限度生物性呼吸」之權限，完全移交予代理個案執行。
               </p>
             </div>
+
           </div>
         </div>
 
+        <!-- 呼吸音檔 -->
         <div class="bg-gray-950/90 rounded-lg p-5 border border-gray-800 space-y-3 font-mono">
           <div class="flex justify-between items-center text-xs">
             <span class="text-emerald-400 font-bold flex items-center gap-2">
@@ -319,6 +349,7 @@
           </audio>
         </div>
 
+        <!-- 本體焦慮自白 -->
         <div class="bg-gray-950/90 rounded-lg p-6 border border-gray-800/80 relative">
           <span class="text-[10px] font-mono text-gray-500 tracking-widest absolute top-3 right-4">STATEMENT ARCHIVE</span>
           <h3 class="text-xs font-mono text-gray-400 tracking-wider mb-3">【本體焦慮自白紀錄】</h3>
@@ -330,19 +361,18 @@
       </article>
     </main>
 
-    <!-- 3. 作品理念 彈出視窗（無邊框視窗、刪除右上角叉叉、關閉按鈕加白框） -->
+    <!-- 3. 作品理念彈出視窗 -->
     <div id="concept-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md modal-backdrop hidden-modal">
-      
-      <!-- 視窗本體：使用 border-0 強制消除無效外框 -->
+
       <div class="bg-[#0b0d10] max-w-2xl w-full max-h-[85vh] rounded-xl border-0 p-6 md:p-8 overflow-y-auto space-y-6 text-sm relative shadow-2xl modal-content">
-        
+
         <div class="border-b border-gray-800/60 pb-4">
           <span class="text-[10px] font-mono text-emerald-500 tracking-widest block">CURATORIAL STATEMENT</span>
           <h2 class="text-xl font-bold text-white font-mono">《理想狀態》作品理念</h2>
         </div>
 
         <div class="space-y-5 text-gray-300 font-sans leading-relaxed text-xs md:text-sm">
-          
+
           <section class="space-y-1.5">
             <h3 class="text-emerald-500 font-mono font-bold text-xs">01. 創作發想：當代異化與假期的罪惡感</h3>
             <p class="text-gray-400">
@@ -366,7 +396,6 @@
 
         </div>
 
-        <!-- 關閉按鈕：具備精緻白框樣式 -->
         <div class="border-t border-gray-800/60 pt-4 flex justify-end">
           <button onclick="closeConceptModal()" class="px-5 py-2 text-xs font-mono text-gray-200 hover:text-white bg-gray-900/90 hover:bg-gray-800 rounded border border-white/80 shadow-sm transition-all">
             關閉視窗 (CLOSE)
@@ -438,7 +467,7 @@
 
     let breathTimer = null;
 
-    // 作品理念 Modal 開關與平滑過渡動畫控制
+    // 作品理念 Modal 開關
     function openConceptModal() {
       const modal = document.getElementById('concept-modal');
       modal.classList.remove('hidden-modal');
@@ -468,18 +497,20 @@
         if (Math.random() < 0.15) {
           isPaused = true;
           const zeroVal = "0.000";
+
           if (headerOutputEl) headerOutputEl.innerText = `${zeroVal} KG/H`;
           if (detailOutputEl) detailOutputEl.innerText = `${zeroVal} KG/H (NULL)`;
 
           setTimeout(() => {
             isPaused = false;
           }, 500);
+
         } else {
           const d1 = Math.floor(Math.random() * 10);
           const d2 = Math.floor(Math.random() * 10);
           const d3 = Math.floor(Math.random() * 10);
           const d4 = Math.floor(Math.random() * 10);
-          
+
           const randomVal = `${d1}.${d2}${d3}${d4}`;
 
           if (headerOutputEl) headerOutputEl.innerText = `${randomVal} KG/H`;
@@ -500,9 +531,10 @@
 
     function startBreathCounter(birthDateStr) {
       if (breathTimer) clearInterval(breathTimer);
-      
+
       let currentBreaths = calculateLifetimeBreaths(birthDateStr);
       const counterEl = document.getElementById('detail-breath-counter');
+
       counterEl.innerText = currentBreaths.toLocaleString();
 
       breathTimer = setInterval(() => {
@@ -515,9 +547,11 @@
     function updateImgDimensions() {
       const sliderContainer = document.getElementById('detail-slider-container');
       const principalImg = document.getElementById('detail-principal-img');
+
       if (sliderContainer && principalImg) {
         const width = sliderContainer.clientWidth;
         const height = sliderContainer.clientHeight;
+
         principalImg.style.width = `${width}px`;
         principalImg.style.height = `${height}px`;
       }
@@ -534,15 +568,15 @@
         clipWrapper.style.width = `${val}%`;
         sliderLine.style.left = `${val}%`;
 
-        // 數值判斷：> 55 高亮本體，< 45 高亮裝置，45~55 居中時兩者都不亮
         if (val > 55) {
           badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-emerald-active";
           badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-inactive";
+
         } else if (val < 45) {
           badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-inactive";
           badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-emerald-active";
+
         } else {
-          // 45 ~ 55 中間區域：兩者皆不亮
           badgePrincipal.className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-inactive";
           badgeDevice.className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-inactive";
         }
@@ -556,18 +590,19 @@
       updateImgDimensions();
     }
 
-    // 4. 首頁卡片渲染（切換第二張圖時，只讓黑底與毛玻璃消失，CASE 文字保留）
+    // 4. 首頁卡片渲染
     function renderPortalCards() {
       const container = document.getElementById('cards-container');
+
       container.innerHTML = PARTICIPANTS.map(p => {
         const imgSrc = p.imageUrl ? `${p.imageUrl}?v=${Date.now()}` : '';
         const deviceImgSrc = (p.deviceImageUrl || p.imageUrl) ? `${(p.deviceImageUrl || p.imageUrl)}?v=${Date.now()}` : '';
-        
+
         return `
         <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl overflow-hidden cursor-pointer flex flex-col justify-between relative group">
           <div class="aspect-[3/4] w-full bg-gray-950 relative overflow-hidden flex items-center justify-center">
-            
-            <!-- CASE #XX 左上角：切換到第二張圖時，僅黑底/毛玻璃消失，文字留存 -->
+
+            <!-- CASE #XX 左上角 -->
             <div class="absolute top-3 left-3 pointer-events-none z-30">
               <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/70 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block transition-all duration-300 group-hover:bg-transparent group-hover:backdrop-blur-none group-hover:shadow-none mobile-auto-bg-fade">
                 CASE #${p.id}
@@ -585,7 +620,7 @@
                 <span class="text-[10px] font-mono text-gray-600">NO SCAN DATA</span>
               </div>
             `}
-            
+
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none z-20"></div>
 
             <div class="absolute bottom-14 left-4 right-4 space-y-0.5 pointer-events-none z-30">
@@ -599,23 +634,35 @@
                 <span>→</span>
               </button>
             </div>
+
           </div>
         </div>
       `}).join('');
     }
 
     // 5. 檢視切換控制
+
+    // 修改：返回首頁時恢復顯示 VALUABLE OUTPUT
     function showPortal() {
       document.getElementById('portal-view').classList.remove('hidden');
       document.getElementById('detail-view').classList.add('hidden');
+
+      // 恢復右上角產出數值
+      document.getElementById('header-output-box').style.display = '';
+
       if (breathTimer) clearInterval(breathTimer);
+
       const audio = document.getElementById('breathing-audio');
       audio.pause();
     }
 
+    // 修改：進入個人檔案時隱藏 VALUABLE OUTPUT
     function showDetail(id) {
       const data = PARTICIPANTS.find(p => p.id === id) || PARTICIPANTS[0];
-      
+
+      // 隱藏右上角產出數值
+      document.getElementById('header-output-box').style.display = 'none';
+
       document.getElementById('detail-id').innerText = `CASE #${data.id}`;
       document.getElementById('detail-name').innerText = data.name;
       document.getElementById('detail-role').innerText = data.role;
@@ -626,24 +673,25 @@
 
       const principalImg = document.getElementById('detail-principal-img');
       const deviceImg = document.getElementById('detail-device-img');
-      
+
       const pUrl = data.imageUrl ? `${data.imageUrl}?v=${Date.now()}` : '';
       const dUrl = data.deviceImageUrl ? `${data.deviceImageUrl}?v=${Date.now()}` : pUrl;
 
       principalImg.src = pUrl;
       deviceImg.src = dUrl;
 
-      // 重設 Slider 到 50% 位置
+      // 重設 Slider 到 50%
       document.getElementById('comparison-slider').value = 50;
       document.getElementById('slider-clip-wrapper').style.width = '50%';
       document.getElementById('slider-line').style.left = '50%';
 
-      // 預設 50% 時兩者皆不亮
+      // 預設兩者皆不亮
       document.getElementById('badge-principal').className = "absolute bottom-2.5 left-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-inactive";
       document.getElementById('badge-device').className = "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-inactive";
 
       const audio = document.getElementById('breathing-audio');
       const source = document.getElementById('audio-source');
+
       source.src = data.audioUrl;
       audio.load();
 
@@ -651,9 +699,9 @@
 
       document.getElementById('portal-view').classList.add('hidden');
       document.getElementById('detail-view').classList.remove('hidden');
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // 確保圖片在 Viewport 展開後更新絕對寬度
       setTimeout(updateImgDimensions, 60);
     }
 
@@ -665,8 +713,10 @@
 
       const urlParams = new URLSearchParams(window.location.search);
       const targetId = urlParams.get('id');
+
       if (targetId) showDetail(targetId);
     });
+
   </script>
 </body>
 </html>

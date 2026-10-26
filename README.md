@@ -128,9 +128,17 @@
         <p class="text-xs text-gray-500 tracking-wider mt-0.5">當代個人怠工檔案與系統診斷報告 Archive Portal</p>
       </div>
 
-      <div class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 w-full md:w-auto flex justify-between md:block">
-        <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
-        <span id="header-output-counter" class="text-emerald-400 font-bold">0.000 KG/H</span>
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+        <!-- 作品理念按鈕：螢光綠樣式 -->
+        <button onclick="openConceptModal()" class="btn-neon inline-flex items-center justify-center space-x-2 text-xs px-4 py-2.5 rounded shadow-lg font-mono">
+          <span>ⓘ</span>
+          <span>作品理念 (CONCEPT)</span>
+        </button>
+
+        <div class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 flex justify-between sm:block">
+          <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
+          <span id="header-output-counter" class="text-emerald-400 font-bold">0.000 KG/H</span>
+        </div>
       </div>
     </header>
 
@@ -283,6 +291,53 @@
       </article>
     </main>
 
+    <!-- 3. 作品理念 彈出視窗（創作者「我」第一人稱視角） -->
+    <div id="concept-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
+      <div class="bg-gray-950 max-w-2xl w-full max-h-[85vh] rounded-xl border border-gray-800/80 p-6 md:p-8 overflow-y-auto space-y-6 text-sm relative shadow-2xl">
+        
+        <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+          <div>
+            <span class="text-[10px] font-mono text-emerald-500 tracking-widest block">CURATORIAL STATEMENT</span>
+            <h2 class="text-xl font-bold text-white font-mono">《理想狀態》作品理念</h2>
+          </div>
+          <button onclick="closeConceptModal()" class="text-gray-400 hover:text-white font-mono text-lg px-2">✕</button>
+        </div>
+
+        <div class="space-y-5 text-gray-300 font-sans leading-relaxed text-xs md:text-sm">
+          
+          <section class="space-y-1.5">
+            <h3 class="text-emerald-500 font-mono font-bold text-xs">01. 創作發想：當代異化與假期的罪惡感</h3>
+            <p class="text-gray-400">
+              在這個高度追求效率與生產力的當代社會中，「空閒」對我而言逐漸轉化為一種罪惡感的來源。這件作品源自於我在假期中的一段空閒時間，當時我意識到，在這段毫無自我價值提升的時光裡，我的內心竟不斷萌生出一種「時間正被浪費」的焦慮與罪惡感。這樣的狀態迫使我開始思考：「我們是不是習慣用產出與結果，來證明一個人的價值？」「如果一個人做某件事卻沒有產出任何價值，它的存在是否仍值得被承認？」
+            </p>
+          </section>
+
+          <section class="space-y-1.5">
+            <h3 class="text-emerald-500 font-mono font-bold text-xs">02. 核心概念：生產一件代替我停止生產的作品</h3>
+            <p class="text-gray-400">
+              對我而言，創作原本是一種創造價值與實現自我的方式。然而在過往的經驗中，當我沒有持續創作或完成任何事情時，便極易陷入生產力恐慌。於是我產生了一個想法：既然創作對我來說是一種創造價值的行為，那麼，我是否能「生產一件代替我休息、只是在呼吸而沒有實際產出的作品」？我試圖透過這樣的矛盾，讓作品暫時代替我完成一次真正的「休息」。它不需要完成任何事情，也不以產出任何結果為目的，只是不斷地呼吸，將原本被我視為缺乏價值的空白時間，轉化為作品本身的一部分。
+            </p>
+          </section>
+
+          <section class="space-y-1.5">
+            <h3 class="text-emerald-500 font-mono font-bold text-xs">03. 氣動代理與無結果的過程</h3>
+            <p class="text-gray-400">
+              作品由五件單獨固定於牆上的頭部雕塑組成。我透過矽膠與氣動薄膜將參與者的個人特徵（皮肉與頭髮）剝離，僅留存骨架結構與起伏的腔體。為了將「呼吸」視覺化，我採用自製氣動裝置搭配塑膠薄膜包裹雕塑，利用裝置抽氣與放氣的特性，模擬人頭套著塑膠袋呼吸時的膨脹與收縮，進而製造雕塑正在呼吸的錯覺。我希望讓這件作品暫時代替我停止生產，也邀請觀者一同觀看一個沒有結果的過程。在這段只剩下呼吸與時間流動的狀態中，重新思考一個沒有產出的行為，是否仍然具有存在的價值。
+            </p>
+          </section>
+
+        </div>
+
+        <!-- 一般深灰色關閉按鈕 -->
+        <div class="border-t border-gray-800 pt-4 flex justify-end">
+          <button onclick="closeConceptModal()" class="px-5 py-2 text-xs font-mono text-gray-300 hover:text-white bg-gray-900 hover:bg-gray-800 rounded border border-gray-700">
+            關閉視窗 (CLOSE)
+          </button>
+        </div>
+
+      </div>
+    </div>
+
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
       <p>© SHAOQI SU. ALL RIGHTS RESERVED.</p>
       <p class="mt-2 md:mt-0">ARTWORK BY SHAOQI SU</p>
@@ -344,6 +399,20 @@
     ];
 
     let breathTimer = null;
+
+    // 作品理念 Modal 開關控制
+    function openConceptModal() {
+      document.getElementById('concept-modal').classList.remove('hidden');
+    }
+
+    function closeConceptModal() {
+      document.getElementById('concept-modal').classList.add('hidden');
+    }
+
+    // 點擊 Modal 背景關閉視窗
+    document.getElementById('concept-modal')?.addEventListener('click', function(e) {
+      if (e.target === this) closeConceptModal();
+    });
 
     // 1. 高速跳動與 0.5 秒凍結歸零邏輯
     function startOutputFluctuationWithPause() {

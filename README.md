@@ -201,10 +201,10 @@
       padding: 0;
     }
 
-    /* 主標題固定為 80px */
+    /* 主標題：桌面與手機統一 64px */
     .archive-title {
       font-family: 'Noto Sans TC', sans-serif;
-      font-size: 80px !important;
+      font-size: 64px !important;
       line-height: 1.1;
       letter-spacing: -0.04em;
       font-weight: 700;

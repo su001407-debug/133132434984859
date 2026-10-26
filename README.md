@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -185,25 +184,35 @@
         <div class="min-w-0">
           <div class="text-[10px] font-mono text-gray-500 tracking-[0.25em] mb-3">IDEAL STATE — ARCHIVE PORTAL</div>
 
-          <!-- 修改：放大「理想狀態」標題 -->
-          <h1 class="text-[clamp(3rem,7.5vw,5.5rem)] leading-none font-bold tracking-[-0.055em] text-gray-100">
+          <!-- 放大「理想狀態」標題：最大 112px -->
+          <h1
+            class="font-bold leading-none tracking-[-0.055em] text-gray-100"
+            style="font-size: clamp(64px, 8vw, 112px);"
+          >
             理想狀態
           </h1>
 
           <p class="text-xs text-gray-500 tracking-[0.06em] mt-5 leading-relaxed">當代個人怠工檔案與系統診斷報告 <span class="text-gray-600">/</span> Archive Portal</p>
         </div>
 
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 md:pb-1 shrink-0">
+        <!-- 縮小右側兩個區塊，保留 rounded-lg 圓角 -->
+        <div class="flex flex-wrap items-center gap-3 md:pb-1 shrink-0">
 
-          <!-- 作品理念按鈕：rounded-lg 圓角 -->
-          <button onclick="openConceptModal()" class="btn-white inline-flex items-center justify-center space-x-2 text-xs px-5 py-3 rounded-lg shadow-sm font-mono">
+          <!-- 作品理念按鈕 -->
+          <button
+            onclick="openConceptModal()"
+            class="btn-white inline-flex items-center justify-center gap-2 text-xs px-4 py-2 rounded-lg shadow-sm font-mono whitespace-nowrap"
+          >
             <span>ⓘ</span>
             <span>作品理念 (CONCEPT)</span>
           </button>
 
-          <!-- VALUABLE OUTPUT：rounded-lg 圓角 -->
-          <div id="header-output-box" class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-3 rounded-lg border border-gray-700/80 flex justify-between sm:block">
-            <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
+          <!-- VALUABLE OUTPUT -->
+          <div
+            id="header-output-box"
+            class="inline-flex items-center gap-3 font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2 rounded-lg border border-gray-700/80 whitespace-nowrap"
+          >
+            <span class="text-gray-500">VALUABLE OUTPUT:</span>
             <span id="header-output-counter" class="text-emerald-400 font-bold">0.000 KG/H</span>
           </div>
 

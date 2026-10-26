@@ -184,10 +184,26 @@
       opacity: 1;
     }
 
-    /* Header 兩個區塊與卡片按鈕使用相同的 4px 圓角 */
+    /* Header 兩個區塊統一 4px 圓角 */
     #header-concept-button,
     #header-output-box {
       border-radius: 4px;
+    }
+
+    /* 標題區的專用排版 */
+    .archive-title {
+      font-size: clamp(42px, 5vw, 72px);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+    }
+
+    .archive-title-divider {
+      width: 112px;
+      height: 1px;
+      background-color: #374151;
+      margin-top: 24px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -221,21 +237,20 @@
 
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-7">
 
+        <!-- 重新設計的標題區 -->
         <div class="min-w-0">
 
-          <div class="text-[10px] font-mono text-gray-500 tracking-[0.25em] mb-3">
+          <div class="text-[10px] font-mono text-gray-500 tracking-[0.25em] mb-5">
             IDEAL STATE — ARCHIVE PORTAL
           </div>
 
-          <!-- 標題最大 88px -->
-          <h1
-            class="font-bold leading-none tracking-[-0.055em] text-gray-100"
-            style="font-size: clamp(48px, 6vw, 88px);"
-          >
+          <h1 class="archive-title text-gray-100">
             理想狀態
           </h1>
 
-          <p class="text-xs text-gray-500 tracking-[0.06em] mt-5 leading-relaxed">
+          <div class="archive-title-divider"></div>
+
+          <p class="text-xs text-gray-500 tracking-[0.06em] leading-relaxed">
             當代個人怠工檔案與系統診斷報告
             <span class="text-gray-600">/</span>
             Archive Portal

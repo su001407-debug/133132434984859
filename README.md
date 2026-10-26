@@ -38,7 +38,6 @@
         0 0 24px 0 rgba(16, 185, 129, 0.08);
     }
 
-    /* 白色作品理念按鈕 */
     .btn-white {
       background-color: #ffffff;
       color: #000000;
@@ -52,7 +51,6 @@
       box-shadow: 0 0 16px rgba(255, 255, 255, 0.3);
     }
 
-    /* 螢光綠卡片按鈕 */
     .btn-neon {
       background-color: #39FF14;
       color: #000000;
@@ -184,15 +182,15 @@
       opacity: 1;
     }
 
-    /* Header 兩個區塊統一 4px 圓角 */
+    /* Header 按鈕：統一 4px 圓角 */
     #header-concept-button,
     #header-output-box {
       border-radius: 4px;
     }
 
-    /* 標題區的專用排版 */
+    /* 標題區：主標題與副標題同步放大 */
     .archive-title {
-      font-size: clamp(42px, 5vw, 72px);
+      font-size: clamp(48px, 5.5vw, 80px);
       line-height: 1.15;
       letter-spacing: -0.04em;
       font-weight: 700;
@@ -202,8 +200,14 @@
       width: 112px;
       height: 1px;
       background-color: #374151;
-      margin-top: 24px;
-      margin-bottom: 20px;
+      margin-top: 20px;
+      margin-bottom: 18px;
+    }
+
+    .archive-subtitle {
+      font-size: clamp(13px, 1.3vw, 18px);
+      line-height: 1.6;
+      letter-spacing: 0.03em;
     }
   </style>
 </head>
@@ -237,7 +241,7 @@
 
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-7">
 
-        <!-- 重新設計的標題區 -->
+        <!-- 標題區：只有一條短灰線 -->
         <div class="min-w-0">
 
           <div class="text-[10px] font-mono text-gray-500 tracking-[0.25em] mb-5">
@@ -250,7 +254,7 @@
 
           <div class="archive-title-divider"></div>
 
-          <p class="text-xs text-gray-500 tracking-[0.06em] leading-relaxed">
+          <p class="archive-subtitle text-gray-500">
             當代個人怠工檔案與系統診斷報告
             <span class="text-gray-600">/</span>
             Archive Portal
@@ -261,7 +265,6 @@
         <!-- Header 操作區 -->
         <div class="flex flex-wrap items-center gap-3 md:pb-1 shrink-0">
 
-          <!-- 作品理念：4px 圓角 -->
           <button
             id="header-concept-button"
             onclick="openConceptModal()"
@@ -271,7 +274,6 @@
             <span>作品理念 (CONCEPT)</span>
           </button>
 
-          <!-- VALUABLE OUTPUT：4px 圓角 -->
           <div
             id="header-output-box"
             class="inline-flex items-center gap-3 font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2 rounded border border-gray-700/80 whitespace-nowrap"
@@ -954,12 +956,10 @@
     }
 
     // 5. 頁面切換
-
     function showPortal() {
       document.getElementById('portal-view').classList.remove('hidden');
       document.getElementById('detail-view').classList.add('hidden');
 
-      // 首頁恢復顯示 VALUABLE OUTPUT
       document.getElementById('header-output-box').style.display = '';
 
       if (breathTimer) {
@@ -967,14 +967,12 @@
       }
 
       const audio = document.getElementById('breathing-audio');
-
       audio.pause();
     }
 
     function showDetail(id) {
       const data = PARTICIPANTS.find(p => p.id === id) || PARTICIPANTS[0];
 
-      // 詳情頁隱藏 VALUABLE OUTPUT
       document.getElementById('header-output-box').style.display = 'none';
 
       document.getElementById('detail-id').innerText = `CASE #${data.id}`;
@@ -1001,7 +999,6 @@
       principalImg.src = pUrl;
       deviceImg.src = dUrl;
 
-      // 對比拉條重設
       document.getElementById('comparison-slider').value = 50;
       document.getElementById('slider-clip-wrapper').style.width = '50%';
       document.getElementById('slider-line').style.left = '50%';
@@ -1012,14 +1009,12 @@
       document.getElementById('badge-device').className =
         "absolute bottom-2.5 right-2.5 text-[9px] font-mono backdrop-blur px-2.5 py-1 rounded transition-all duration-300 z-20 pointer-events-none badge-inactive";
 
-      // 音檔
       const audio = document.getElementById('breathing-audio');
       const source = document.getElementById('audio-source');
 
       source.src = data.audioUrl;
       audio.load();
 
-      // 呼吸計數器
       startBreathCounter(data.birthDate);
 
       document.getElementById('portal-view').classList.add('hidden');
@@ -1033,7 +1028,6 @@
       setTimeout(updateImgDimensions, 60);
     }
 
-    // 初始化
     window.addEventListener('DOMContentLoaded', () => {
       renderPortalCards();
       initComparisonSlider();

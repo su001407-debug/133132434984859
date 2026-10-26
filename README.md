@@ -203,7 +203,7 @@
 
     .archive-title {
       font-family: 'Noto Sans TC', sans-serif;
-      font-size: clamp(48px,5.5vw,80px);
+      font-size: clamp(56px,6.5vw,96px);
       line-height: 1.1;
       letter-spacing: -0.04em;
       font-weight: 700;
@@ -230,7 +230,6 @@
       box-shadow: none !important;
     }
 
-    /* 禁止標題區出現舊版分隔線 */
     .archive-title-group hr,
     .archive-title-divider,
     .archive-title::before,
@@ -273,7 +272,7 @@
 
     @media (max-width: 767px) {
       .archive-title {
-        font-size: clamp(44px,10vw,64px);
+        font-size: clamp(48px,11vw,72px);
       }
 
       .archive-subtitle {
@@ -450,7 +449,6 @@
 
         </div>
 
-        <!-- 照片與資料 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
 
           <div
@@ -610,7 +608,6 @@
 
         </div>
 
-        <!-- 音檔 -->
         <div class="bg-gray-950/90 rounded-lg p-5 border border-gray-800 space-y-3 font-mono">
 
           <div class="flex justify-between items-center text-xs gap-3">
@@ -637,7 +634,6 @@
 
         </div>
 
-        <!-- 自白 -->
         <div class="bg-gray-950/90 rounded-lg p-6 border border-gray-800/80 relative">
 
           <span class="text-[10px] font-mono text-gray-500 tracking-widest absolute top-3 right-4">
@@ -660,10 +656,6 @@
       </article>
 
     </main>
-
-    <!-- =========================================
-         作品理念
-         ========================================= -->
 
     <div
       id="concept-modal"
@@ -739,7 +731,6 @@
 
     </div>
 
-    <!-- Footer -->
     <footer class="border-t border-gray-800/60 mt-16 pt-6 text-center md:flex justify-between items-center text-xs text-gray-600 font-mono">
 
       <p>© SHAOQI SU. ALL RIGHTS RESERVED.</p>
@@ -753,10 +744,6 @@
   </div>
 
   <script>
-    /* =========================================
-       個案資料
-       ========================================= */
-
     const PARTICIPANTS = [
       {
         id: "01",
@@ -810,10 +797,6 @@
 
     let breathTimer = null;
 
-    /* =========================================
-       作品理念
-       ========================================= */
-
     function openConceptModal() {
       const modal = document.getElementById('concept-modal');
       modal.classList.remove('hidden-modal');
@@ -834,10 +817,6 @@
         }
       }
     );
-
-    /* =========================================
-       產出數值
-       ========================================= */
 
     function startOutputFluctuationWithPause() {
       const headerOutputEl =
@@ -887,10 +866,6 @@
       setInterval(updateCounter, 80);
     }
 
-    /* =========================================
-       呼吸計數
-       ========================================= */
-
     function calculateLifetimeBreaths(birthDateStr) {
       const birthDate = new Date(birthDateStr);
       const now = new Date();
@@ -917,10 +892,6 @@
         counterEl.innerText = currentBreaths.toLocaleString();
       }, 4000);
     }
-
-    /* =========================================
-       圖片對比
-       ========================================= */
 
     function updateImgDimensions() {
       const sliderContainer =
@@ -985,10 +956,6 @@
 
       updateImgDimensions();
     }
-
-    /* =========================================
-       首頁卡片
-       ========================================= */
 
     function renderPortalCards() {
       const container =
@@ -1089,10 +1056,6 @@
         `;
       }).join('');
     }
-
-    /* =========================================
-       頁面切換
-       ========================================= */
 
     function showPortal() {
       document.getElementById('portal-view')
@@ -1198,10 +1161,6 @@
 
       setTimeout(updateImgDimensions, 60);
     }
-
-    /* =========================================
-       初始化
-       ========================================= */
 
     window.addEventListener('DOMContentLoaded', () => {
       renderPortalCards();

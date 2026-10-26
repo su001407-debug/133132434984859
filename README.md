@@ -55,15 +55,21 @@ body {
   box-shadow: 0 0 16px rgba(255,255,255,.3);
 }
 
-/* 個案按鈕 */
+/* =========================================
+   個案診斷按鈕
+   電腦預設：黑底白字
+   電腦滑鼠移入：螢光綠底黑字
+   手機：固定螢光綠底黑字
+   ========================================= */
 
 .btn-neon {
-  background: #ffffff;
-  color: #000000;
+  background: #000000;
+  color: #ffffff;
   font-weight: 800;
   border: none;
   transition:
     background-color .25s ease,
+    color .25s ease,
     box-shadow .25s ease;
 }
 

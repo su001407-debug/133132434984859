@@ -92,16 +92,15 @@
       .mobile-auto-fade {
         animation: mobileFade 6s infinite ease-in-out;
       }
-      /* 手機端動態輪播時同步淡出黑底 */
-      .mobile-auto-badge-fade {
-        animation: mobileBadgeFade 6s infinite ease-in-out;
+      .mobile-auto-bg-fade {
+        animation: mobileBgFade 6s infinite ease-in-out;
       }
     }
 
-    @keyframes mobileBadgeFade {
-      0%, 45% { opacity: 1; }
-      55%, 95% { opacity: 0; }
-      100% { opacity: 1; }
+    @keyframes mobileBgFade {
+      0%, 45% { background-color: rgba(0,0,0,0.7); backdrop-filter: blur(6px); }
+      55%, 95% { background-color: transparent; backdrop-filter: none; }
+      100% { background-color: rgba(0,0,0,0.7); backdrop-filter: blur(6px); }
     }
 
     /* 防止觸控拖曳拉條時捲動頁面 */
@@ -316,7 +315,7 @@
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg",
         deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-9afd07b5-083e-4c4d-a816-f5d9519e8f92.jpg",
         audioUrl: "breath02.mp3",
-        statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我 need 這台機器幫我把『休息』當成一項公事來認真執行。"
+        statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我需要這台機器幫我把『休息』當成一項公事來認真執行。"
       },
       {
         id: "03",
@@ -446,7 +445,7 @@
       updateImgDimensions();
     }
 
-    // 4. 首頁卡片渲染（切換第二張圖時，CASE 標籤與黑底同步淡出消失）
+    // 4. 首頁卡片渲染（切換第二張圖時，只讓黑底與毛玻璃消失，CASE 文字保留）
     function renderPortalCards() {
       const container = document.getElementById('cards-container');
       container.innerHTML = PARTICIPANTS.map(p => {
@@ -457,9 +456,9 @@
         <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl overflow-hidden cursor-pointer flex flex-col justify-between relative group">
           <div class="aspect-[3/4] w-full bg-gray-950 relative overflow-hidden flex items-center justify-center">
             
-            <!-- CASE #XX 左上角： hover 到第二張圖時 group-hover:opacity-0 淡出消失 -->
-            <div class="absolute top-3 left-3 pointer-events-none z-30 transition-opacity duration-300 group-hover:opacity-0 mobile-auto-badge-fade">
-              <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/70 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block">
+            <!-- CASE #XX 左上角：切換到第二張圖時，僅黑底/毛玻璃消失，文字留存 -->
+            <div class="absolute top-3 left-3 pointer-events-none z-30">
+              <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/70 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block transition-all duration-300 group-hover:bg-transparent group-hover:backdrop-blur-none group-hover:shadow-none mobile-auto-bg-fade">
                 CASE #${p.id}
               </span>
             </div>

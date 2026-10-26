@@ -150,9 +150,9 @@
 
       <article class="glass-card rounded-xl p-6 md:p-10 relative space-y-6">
         
-        <!-- 個案 Header + 無邊框單行系統說明說明文字（位在橫線上邊） -->
-        <div class="border-b border-gray-800 pb-6 space-y-3">
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <!-- 個案 Header + 緊貼於橫線正上方的系統說明文字 -->
+        <div class="border-b border-gray-800 pb-2 space-y-1">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
             <div>
               <span id="detail-id" class="inline-block text-white text-xs font-mono mb-2">CASE #000</span>
               <h2 id="detail-name" class="text-2xl md:text-3xl font-bold text-white">---</h2>
@@ -164,13 +164,13 @@
             </div>
           </div>
 
-          <!-- 無邊框說明文字，放在代理呼吸員下方、橫線上方 -->
-          <p class="text-[10px] font-mono text-gray-400 pt-1 tracking-wide">
+          <!-- 說明文字緊貼橫線之上 -->
+          <p class="text-[10px] font-mono text-gray-400 tracking-wide pb-1">
             [SYSTEM NOTE] 個人特徵（髮型/皮肉）已於代理化過程中剝離，僅保留骨架結構與氣動呼吸腔體。
           </p>
         </div>
 
-        <!-- 照片對比與數據面板區域 (高度拉平對齊) -->
+        <!-- 照片對比與數據面板區域 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           
           <!-- 左側：照片對比區 -->
@@ -179,7 +179,7 @@
             <!-- 底圖：代理裝置照片 (PROXY DEVICE) -->
             <img id="detail-device-img" src="" alt="Proxy Device" class="w-full h-full object-cover grayscale contrast-125 absolute inset-0 pointer-events-none">
             
-            <!-- 上圖：本體照片 (PRINCIPAL PHOTO) - 被 Clip 切割，右側為一般綠色分割線 -->
+            <!-- 上圖：本體照片 (PRINCIPAL PHOTO) -->
             <div id="slider-clip-wrapper" class="absolute inset-0 overflow-hidden w-1/2 border-r-2 border-emerald-500">
               <img id="detail-principal-img" src="" alt="Principal" class="w-full h-full object-cover grayscale contrast-125 pointer-events-none" style="max-width: none;">
             </div>
@@ -436,7 +436,7 @@
       updateImgDimensions();
     }
 
-    // 4. 首頁卡片渲染
+    // 4. 首頁卡片渲染（CASE 文字增加半透明黑色襯底）
     function renderPortalCards() {
       const container = document.getElementById('cards-container');
       container.innerHTML = PARTICIPANTS.map(p => {
@@ -460,8 +460,11 @@
             
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none"></div>
 
-            <div class="absolute top-3 left-3 pointer-events-none">
-              <span class="text-xs font-mono text-white tracking-wider font-bold">CASE #${p.id}</span>
+            <!-- CASE #XX 左上角半透明黑色襯底 -->
+            <div class="absolute top-3 left-3 pointer-events-none z-10">
+              <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/60 backdrop-blur-md px-2.5 py-1 rounded border border-gray-800/60 shadow-lg inline-block">
+                CASE #${p.id}
+              </span>
             </div>
 
             <div class="absolute bottom-14 left-4 right-4 space-y-0.5 pointer-events-none">

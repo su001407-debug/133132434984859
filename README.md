@@ -18,8 +18,8 @@
     .bg-grid-dark {
       background-size: 32px 32px;
       background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
     }
 
     .glass-card {
@@ -170,33 +170,35 @@
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
 
-    <!-- Header 頂部欄位 -->
-    <header class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-6 mb-10 gap-4">
-      <div>
-        <div class="flex items-center space-x-2 text-xs tracking-widest text-emerald-400 font-mono mb-1">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>SYSTEM RUNNING | CLINICAL ARCHIVE PORTAL</span>
+    <!-- Header 頂部欄位：極簡藝術機構 × 精密臨床檔案 -->
+    <header class="border-b border-gray-700/70 pb-8 mb-12">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-8 font-mono text-[10px] sm:text-xs tracking-[0.14em]">
+        <div class="flex items-center gap-2 text-emerald-400">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>SYSTEM RUNNING <span class="text-gray-600 mx-1">/</span> CLINICAL ARCHIVE PORTAL</span>
         </div>
-        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white font-mono">
-          理想狀態
-        </h1>
-        <p class="text-xs text-gray-500 tracking-wider mt-0.5">當代個人怠工檔案與系統診斷報告 Archive Portal</p>
+        <span class="text-gray-500 tracking-[0.18em]">ARCHIVE / 2026 / 001</span>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
-
-        <!-- 作品理念按鈕 -->
-        <button onclick="openConceptModal()" class="btn-white inline-flex items-center justify-center space-x-2 text-xs px-4 py-2.5 rounded shadow-lg font-mono">
-          <span>ⓘ</span>
-          <span>作品理念 (CONCEPT)</span>
-        </button>
-
-        <!-- 修改：新增 ID，讓個人檔案頁可以隱藏此區塊 -->
-        <div id="header-output-box" class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-2.5 rounded border border-gray-800/80 flex justify-between sm:block">
-          <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
-          <span id="header-output-counter" class="text-emerald-400 font-bold">0.000 KG/H</span>
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-7">
+        <div class="min-w-0">
+          <div class="text-[10px] font-mono text-gray-500 tracking-[0.25em] mb-3">IDEAL STATE — ARCHIVE PORTAL</div>
+          <h1 class="text-[clamp(2.5rem,6vw,4.5rem)] leading-none font-bold tracking-[-0.055em] text-gray-100">
+            理想狀態
+          </h1>
+          <p class="text-xs text-gray-500 tracking-[0.06em] mt-5 leading-relaxed">當代個人怠工檔案與系統診斷報告 <span class="text-gray-600">/</span> Archive Portal</p>
         </div>
 
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 md:pb-1 shrink-0">
+          <button onclick="openConceptModal()" class="btn-white inline-flex items-center justify-center space-x-2 text-xs px-5 py-3 rounded-sm shadow-sm font-mono">
+            <span>ⓘ</span>
+            <span>作品理念 (CONCEPT)</span>
+          </button>
+          <div id="header-output-box" class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-3 rounded-sm border border-gray-700/80 flex justify-between sm:block">
+            <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
+            <span id="header-output-counter" class="text-emerald-400 font-bold">0.000 KG/H</span>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -641,7 +643,7 @@
 
     // 5. 檢視切換控制
 
-    // 修改：返回首頁時恢復顯示 VALUABLE OUTPUT
+    // 返回首頁時恢復顯示 VALUABLE OUTPUT
     function showPortal() {
       document.getElementById('portal-view').classList.remove('hidden');
       document.getElementById('detail-view').classList.add('hidden');
@@ -655,7 +657,7 @@
       audio.pause();
     }
 
-    // 修改：進入個人檔案時隱藏 VALUABLE OUTPUT
+    // 進入個人檔案時隱藏 VALUABLE OUTPUT
     function showDetail(id) {
       const data = PARTICIPANTS.find(p => p.id === id) || PARTICIPANTS[0];
 

@@ -40,7 +40,7 @@
       background-color: #ffffff;
       color: #000000;
       font-weight: 700;
-      border: none;
+      border: none !important;
       transition: all 0.25s ease;
     }
 
@@ -54,7 +54,7 @@
       background-color: #39FF14;
       color: #000000;
       font-weight: 800;
-      border: none;
+      border: none !important;
       transition: all 0.2s ease;
     }
 
@@ -122,7 +122,7 @@
       touch-action: none;
     }
 
-    /* Modal 彈出與縮放動畫 */
+    /* Modal 彈出與縮放過渡動畫 */
     .modal-backdrop {
       transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -330,13 +330,13 @@
       </article>
     </main>
 
-    <!-- 3. 作品理念 彈出視窗（無白框、純深色氣氛、動態淡入淡出縮放動畫） -->
-    <div id="concept-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md modal-backdrop hidden-modal">
+    <!-- 3. 作品理念 彈出視窗（完全移除白框、極簡純黑氣氛、淡入/縮放過渡動畫） -->
+    <div id="concept-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md modal-backdrop hidden-modal">
       
-      <!-- 視窗本體：完全無白框，極簡深色內嵌邊界 -->
-      <div class="bg-[#0b0d10] max-w-2xl w-full max-h-[85vh] rounded-xl border border-gray-900/90 p-6 md:p-8 overflow-y-auto space-y-6 text-sm relative shadow-2xl modal-content">
+      <!-- 視窗本體：使用 border-0 強制消除任何邊框 -->
+      <div class="bg-[#0b0d10] max-w-2xl w-full max-h-[85vh] rounded-xl border-0 p-6 md:p-8 overflow-y-auto space-y-6 text-sm relative shadow-2xl modal-content">
         
-        <div class="flex justify-between items-center border-b border-gray-800/80 pb-4">
+        <div class="flex justify-between items-center border-b border-gray-800/60 pb-4">
           <div>
             <span class="text-[10px] font-mono text-emerald-500 tracking-widest block">CURATORIAL STATEMENT</span>
             <h2 class="text-xl font-bold text-white font-mono">《理想狀態》作品理念</h2>
@@ -363,15 +363,15 @@
           <section class="space-y-1.5">
             <h3 class="text-emerald-500 font-mono font-bold text-xs">03. 氣動代理與無結果的過程</h3>
             <p class="text-gray-400">
-             作品由四件單獨固定於牆上的頭部雕塑組成，並將參與者的個人特徵（皮肉與頭髮）剝離，僅留存五官結構。為了將「呼吸」視覺化，我採用自製氣動裝置搭配塑膠薄膜包裹雕塑，利用裝置抽氣與放氣的特性，模擬人頭套著塑膠袋呼吸時的膨脹與收縮，進而製造雕塑正在呼吸的錯覺。我希望讓這件作品暫時代替我停止生產，也邀請觀者一同觀看一個沒有結果的過程。在這段只剩下呼吸與時間流動的狀態中，重新思考一個沒有產出的行為，是否仍然具有存在的價值。
+              作品由四件單獨固定於牆上的頭部雕塑組成，並將參與者的個人特徵（皮肉與頭髮）剝離，僅留存五官結構。為了將「呼吸」視覺化，我採用自製氣動裝置搭配塑膠薄膜包裹雕塑，利用裝置抽氣與放氣的特性，模擬人頭套著塑膠袋呼吸時的膨脹與收縮，進而製造雕塑正在呼吸的錯覺。我希望讓這件作品暫時代替我停止生產，也邀請觀者一同觀看一個沒有結果的過程。在這段只剩下呼吸與時間流動的狀態中，重新思考一個沒有產出的行為，是否仍然具有存在的價值。
             </p>
           </section>
 
         </div>
 
-        <!-- 一般深灰色關閉按鈕 -->
-        <div class="border-t border-gray-800/80 pt-4 flex justify-end">
-          <button onclick="closeConceptModal()" class="px-5 py-2 text-xs font-mono text-gray-300 hover:text-white bg-gray-900/90 hover:bg-gray-800 rounded border border-gray-700/80">
+        <!-- 關閉按鈕：極簡深灰風格（完全無白框） -->
+        <div class="border-t border-gray-800/60 pt-4 flex justify-end">
+          <button onclick="closeConceptModal()" class="px-5 py-2 text-xs font-mono text-gray-300 hover:text-white bg-gray-900 hover:bg-gray-800 rounded border-0 transition-colors">
             關閉視窗 (CLOSE)
           </button>
         </div>

@@ -92,6 +92,16 @@
       .mobile-auto-fade {
         animation: mobileFade 6s infinite ease-in-out;
       }
+      /* 手機端動態輪播時同步淡出黑底 */
+      .mobile-auto-badge-fade {
+        animation: mobileBadgeFade 6s infinite ease-in-out;
+      }
+    }
+
+    @keyframes mobileBadgeFade {
+      0%, 45% { opacity: 1; }
+      55%, 95% { opacity: 0; }
+      100% { opacity: 1; }
     }
 
     /* 防止觸控拖曳拉條時捲動頁面 */
@@ -177,10 +187,10 @@
           <div id="detail-slider-container" class="w-full h-full min-h-[360px] md:min-h-full bg-gray-950 rounded-lg overflow-hidden border border-gray-800 relative select-none group">
             
             <!-- 底圖：代理裝置照片 (PROXY DEVICE) -->
-            <img id="detail-device-img" src="" alt="Proxy Device" class="w-full h-full object-cover grayscale contrast-125 absolute inset-0 pointer-events-none">
+            <img id="detail-device-img" src="" alt="Proxy Device" class="w-full h-full object-cover grayscale contrast-125 absolute inset-0 pointer-events-none z-0">
             
             <!-- 上圖：本體照片 (PRINCIPAL PHOTO) -->
-            <div id="slider-clip-wrapper" class="absolute inset-0 overflow-hidden w-1/2 border-r-2 border-emerald-500">
+            <div id="slider-clip-wrapper" class="absolute inset-0 overflow-hidden w-1/2 border-r-2 border-emerald-500 z-10">
               <img id="detail-principal-img" src="" alt="Principal" class="w-full h-full object-cover grayscale contrast-125 pointer-events-none" style="max-width: none;">
             </div>
 
@@ -294,7 +304,7 @@
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg",
         deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-32f03bb8-e07f-4f01-97b6-a7cdcd3b1edd.jpg",
         audioUrl: "breath01.mp3",
-        statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我 need 一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
+        statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我需要一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
       },
       {
         id: "02",
@@ -306,7 +316,7 @@
         imageUrl: "https://cdn.phototourl.com/member/2026-10-25-09d06678-a47a-49da-b2bb-c6197ce8a8ea.jpg",
         deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-9afd07b5-083e-4c4d-a816-f5d9519e8f92.jpg",
         audioUrl: "breath02.mp3",
-        statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我需要這台機器幫我把『休息』當成一項公事來認真執行。"
+        statement: "只要超過半天沒有打開繪圖軟體或思考進度，我就會產生一種即將被同齡人徹底淘汰的恐慌。明明身體已經累到極限，但大腦還是強迫性地尋找事情做。我 need 這台機器幫我把『休息』當成一項公事來認真執行。"
       },
       {
         id: "03",
@@ -436,7 +446,7 @@
       updateImgDimensions();
     }
 
-    // 4. 首頁卡片渲染（CASE 無邊框、純半透明黑色襯底）
+    // 4. 首頁卡片渲染（切換第二張圖時，CASE 標籤與黑底同步淡出消失）
     function renderPortalCards() {
       const container = document.getElementById('cards-container');
       container.innerHTML = PARTICIPANTS.map(p => {
@@ -446,9 +456,17 @@
         return `
         <div onclick="showDetail('${p.id}')" class="glass-card rounded-xl overflow-hidden cursor-pointer flex flex-col justify-between relative group">
           <div class="aspect-[3/4] w-full bg-gray-950 relative overflow-hidden flex items-center justify-center">
+            
+            <!-- CASE #XX 左上角： hover 到第二張圖時 group-hover:opacity-0 淡出消失 -->
+            <div class="absolute top-3 left-3 pointer-events-none z-30 transition-opacity duration-300 group-hover:opacity-0 mobile-auto-badge-fade">
+              <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/70 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block">
+                CASE #${p.id}
+              </span>
+            </div>
+
             ${p.imageUrl ? `
-              <img src="${imgSrc}" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-all duration-500 absolute inset-0">
-              <img src="${deviceImgSrc}" class="w-full h-full object-cover grayscale contrast-125 opacity-0 group-hover:opacity-100 mobile-auto-fade group-hover:scale-105 transition-all duration-500 absolute inset-0">
+              <img src="${imgSrc}" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-all duration-500 absolute inset-0 z-0">
+              <img src="${deviceImgSrc}" class="w-full h-full object-cover grayscale contrast-125 opacity-0 group-hover:opacity-100 mobile-auto-fade group-hover:scale-105 transition-all duration-500 absolute inset-0 z-10">
             ` : `
               <div class="flex flex-col items-center space-y-2 text-gray-700">
                 <svg class="w-12 h-12 stroke-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -458,21 +476,14 @@
               </div>
             `}
             
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none z-20"></div>
 
-            <!-- CASE #XX 左上角：無邊框、純半透明黑色襯底 -->
-            <div class="absolute top-3 left-3 pointer-events-none z-10">
-              <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/60 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block">
-                CASE #${p.id}
-              </span>
-            </div>
-
-            <div class="absolute bottom-14 left-4 right-4 space-y-0.5 pointer-events-none">
+            <div class="absolute bottom-14 left-4 right-4 space-y-0.5 pointer-events-none z-30">
               <h3 class="text-lg font-bold text-white tracking-wide">${p.name}</h3>
               <p class="text-xs text-gray-300 font-mono">${p.role}</p>
             </div>
 
-            <div class="absolute bottom-3 left-3 right-3">
+            <div class="absolute bottom-3 left-3 right-3 z-30">
               <button class="btn-neon w-full py-2 text-xs rounded shadow-lg flex items-center justify-center space-x-1">
                 <span>檢視個案診斷</span>
                 <span>→</span>

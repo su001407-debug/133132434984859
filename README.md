@@ -35,7 +35,7 @@
     }
 
     .glass-card:hover {
-      border-color: rgba(16,185,129,0.4);
+      border-color: rgba(255,255,255,0.18);
       transform: translateY(-4px);
       box-shadow:
         0 16px 36px -10px rgba(0,0,0,0.9),
@@ -43,15 +43,16 @@
     }
 
     .btn-white {
-      background: #fff;
-      color: #000;
+      background-color: #ffffff !important;
+      color: #000000 !important;
       font-weight: 700;
       border: none;
       transition: all 0.25s ease;
+      -webkit-text-fill-color: #000000;
     }
 
     .btn-white:hover {
-      background: #e5e7eb;
+      background-color: #e5e7eb !important;
       box-shadow: 0 0 16px rgba(255,255,255,0.3);
     }
 
@@ -176,7 +177,7 @@
     }
 
     /* =========================================
-       HEADER — 標題與按鈕對齊
+       HEADER
        ========================================= */
 
     .archive-header-main {
@@ -201,7 +202,6 @@
       padding: 0;
     }
 
-    /* 主標題：桌面與手機統一 64px */
     .archive-title {
       font-family: 'Noto Sans TC', sans-serif;
       font-size: 64px !important;
@@ -257,18 +257,44 @@
       white-space: nowrap;
     }
 
-    /* 關閉視窗按鈕：白底黑字 */
-    #concept-close-button {
-      background-color: #ffffff !important;
-      color: #000000 !important;
-      border: 1px solid #ffffff !important;
-      font-weight: 700;
+    /* =========================================
+       關閉視窗按鈕：所有裝置白底黑字、置中
+       ========================================= */
+
+    .concept-modal-footer {
+      display: flex;
+      justify-content: center !important;
+      align-items: center;
+      width: 100%;
     }
 
-    #concept-close-button:hover {
-      background-color: #e5e7eb !important;
-      border-color: #e5e7eb !important;
+    #concept-close-button {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff !important;
+      background-color: #ffffff !important;
       color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      border: 1px solid #ffffff !important;
+      opacity: 1 !important;
+      font-weight: 700 !important;
+      text-align: center;
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 4px;
+      padding: 8px 20px;
+      cursor: pointer;
+    }
+
+    #concept-close-button:hover,
+    #concept-close-button:focus,
+    #concept-close-button:active {
+      background: #e5e7eb !important;
+      background-color: #e5e7eb !important;
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      border-color: #e5e7eb !important;
     }
 
     @media (min-width: 768px) {
@@ -291,6 +317,16 @@
       .archive-subtitle {
         font-size: clamp(12px,3.5vw,16px);
       }
+
+      .concept-modal-footer {
+        justify-content: center !important;
+      }
+
+      #concept-close-button {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+      }
     }
   </style>
 </head>
@@ -301,24 +337,19 @@
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
 
-    <!-- =========================================
-         HEADER
-         ========================================= -->
+    <!-- HEADER -->
 
     <header class="border-b border-gray-700/70 pb-8 mb-12">
 
       <div class="flex flex-wrap items-center justify-between gap-3 mb-8 font-mono text-[10px] sm:text-xs tracking-[0.14em]">
 
         <div class="flex items-center gap-2 text-emerald-400">
-
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-
           <span>
             SYSTEM RUNNING
             <span class="text-gray-600 mx-1">/</span>
             CLINICAL ARCHIVE PORTAL
           </span>
-
         </div>
 
         <span class="text-gray-500 tracking-[0.18em]">
@@ -335,9 +366,7 @@
             IDEAL STATE — ARCHIVE PORTAL
           </div>
 
-          <h1 class="archive-title">
-            理想狀態
-          </h1>
+          <h1 class="archive-title">理想狀態</h1>
 
           <p class="archive-subtitle">
             當代個人怠工檔案與系統診斷報告
@@ -362,15 +391,10 @@
             id="header-output-box"
             class="inline-flex items-center gap-3 font-mono text-gray-400 bg-gray-950/80 border border-gray-700/80"
           >
-
-            <span class="text-gray-500">
-              VALUABLE OUTPUT:
-            </span>
-
+            <span class="text-gray-500">VALUABLE OUTPUT:</span>
             <span id="header-output-counter" class="text-emerald-400 font-bold">
               0.000 KG/H
             </span>
-
           </div>
 
         </div>
@@ -379,16 +403,13 @@
 
     </header>
 
-    <!-- =========================================
-         首頁
-         ========================================= -->
+    <!-- 首頁 -->
 
     <main id="portal-view" class="space-y-8">
 
       <div class="flex justify-between items-end border-b border-gray-800/60 pb-3 gap-4">
 
         <div>
-
           <h2 class="text-lg font-bold text-white tracking-wide">
             委託人檔案目錄
           </h2>
@@ -396,7 +417,6 @@
           <p class="text-xs text-gray-500">
             點擊個案卡片，檢視完整「臨床診斷報告與生命累積呼吸數據」
           </p>
-
         </div>
 
         <span class="text-xs text-gray-600 font-mono shrink-0">
@@ -412,9 +432,7 @@
 
     </main>
 
-    <!-- =========================================
-         個案詳情
-         ========================================= -->
+    <!-- 個案詳情 -->
 
     <main id="detail-view" class="hidden space-y-6">
 
@@ -433,7 +451,6 @@
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
 
             <div>
-
               <span id="detail-id" class="inline-block text-white text-xs font-mono mb-2">
                 CASE #000
               </span>
@@ -445,7 +462,6 @@
               <p id="detail-role" class="text-xs font-mono text-gray-400 mt-1">
                 ---
               </p>
-
             </div>
 
             <div class="stamp-red px-4 py-1.5 rounded text-xs font-bold font-mono tracking-widest uppercase shrink-0">
@@ -502,11 +518,9 @@
               id="slider-line"
               class="absolute top-0 bottom-0 w-0.5 bg-emerald-500 pointer-events-none z-20 left-1/2 -translate-x-1/2 shadow-[0_0_8px_rgba(16,185,129,0.5)]"
             >
-
               <div class="w-6 h-6 rounded-full bg-emerald-500 text-black font-extrabold text-[10px] flex items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg">
                 ◄►
               </div>
-
             </div>
 
             <span
@@ -530,27 +544,21 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-gray-800/80 pb-4">
 
               <div>
-
                 <span class="text-gray-500 text-[10px] block">
                   SERVICE TARGET (代理對象)
                 </span>
-
                 <span id="detail-target" class="font-bold text-gray-200">
                   ---
                 </span>
-
               </div>
 
               <div>
-
                 <span class="text-gray-500 text-[10px] block">
                   ANXIETY INDEX (焦慮指數)
                 </span>
-
                 <span id="detail-anxiety" class="font-bold text-red-400">
                   ---
                 </span>
-
               </div>
 
               <div class="sm:col-span-2 bg-emerald-950/20 p-3.5 rounded border border-emerald-500/20 w-full overflow-hidden">
@@ -590,21 +598,17 @@
               </div>
 
               <div>
-
                 <span class="text-gray-500 text-[10px] block">
                   ECONOMIC OUTPUT (產出價值)
                 </span>
-
                 <span id="detail-output-counter" class="font-bold text-emerald-400">
                   0.000 KG/H (NULL)
                 </span>
-
               </div>
 
             </div>
 
             <div>
-
               <span class="text-gray-500 text-[10px] block mb-1">
                 SYSTEM CLAUSE (授權條款)
               </span>
@@ -612,7 +616,6 @@
               <p class="text-gray-400 leading-relaxed text-[11px] font-sans">
                 本體因無法忍受空閒狀態產生之罪惡感，現已將「維持最低限度生物性呼吸」之權限，完全移交予代理個案執行。
               </p>
-
             </div>
 
           </div>
@@ -669,7 +672,7 @@
     </main>
 
     <!-- =========================================
-         作品理念
+         作品理念視窗
          ========================================= -->
 
     <div
@@ -731,12 +734,15 @@
 
         </div>
 
-        <div class="border-t border-gray-800/60 pt-4 flex justify-end">
+        <!-- 修改：關閉按鈕置中 -->
+        <div class="concept-modal-footer border-t border-gray-800/60 pt-4">
 
           <button
             id="concept-close-button"
+            type="button"
             onclick="closeConceptModal()"
-            class="px-5 py-2 text-xs font-mono bg-white text-black font-bold hover:bg-gray-200 rounded border border-white shadow-sm transition-all"
+            class="text-xs font-mono shadow-sm transition-all"
+            style="background-color:#ffffff !important;color:#000000 !important;-webkit-text-fill-color:#000000 !important;border:1px solid #ffffff !important;"
           >
             關閉視窗 (CLOSE)
           </button>

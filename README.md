@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -188,26 +187,64 @@
       border-radius: 4px;
     }
 
-    /* 標題區：主標題與副標題同步放大 */
-    .archive-title {
-      font-size: clamp(48px, 5.5vw, 80px);
-      line-height: 1.15;
-      letter-spacing: -0.04em;
-      font-weight: 700;
+    /*
+      標題區：
+      1. 完全移除裝飾分隔線
+      2. 主副標題緊密排列
+      3. 與右側按鈕底部對齊
+    */
+    .archive-title-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 0;
     }
 
-    .archive-title-divider {
-      width: 112px;
-      height: 1px;
-      background-color: #374151;
-      margin-top: 20px;
-      margin-bottom: 18px;
+    .archive-title {
+      font-size: clamp(48px, 5.5vw, 80px);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+      margin: 0;
+      padding: 0;
     }
 
     .archive-subtitle {
       font-size: clamp(13px, 1.3vw, 18px);
-      line-height: 1.6;
+      line-height: 1.5;
       letter-spacing: 0.03em;
+      margin-top: 8px;
+      padding: 0;
+    }
+
+    .archive-header-main {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .archive-header-main {
+        flex-direction: row;
+        align-items: flex-end;
+      }
+
+      .archive-header-actions {
+        align-self: flex-end;
+        padding-bottom: 0;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .archive-title {
+        font-size: clamp(44px, 10vw, 64px);
+      }
+
+      .archive-subtitle {
+        font-size: clamp(12px, 3.5vw, 16px);
+      }
     }
   </style>
 </head>
@@ -239,20 +276,19 @@
 
       </div>
 
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-7">
+      <!-- 標題與右側按鈕底部對齊 -->
+      <div class="archive-header-main">
 
-        <!-- 標題區：只有一條短灰線 -->
-        <div class="min-w-0">
+        <!-- 左側標題：完全沒有分隔線 -->
+        <div class="archive-title-group">
 
-          <div class="text-[10px] font-mono text-gray-500 tracking-[0.25em] mb-5">
+          <div class="text-[10px] font-mono text-gray-500 tracking-[0.25em] mb-4">
             IDEAL STATE — ARCHIVE PORTAL
           </div>
 
           <h1 class="archive-title text-gray-100">
             理想狀態
           </h1>
-
-          <div class="archive-title-divider"></div>
 
           <p class="archive-subtitle text-gray-500">
             當代個人怠工檔案與系統診斷報告
@@ -262,8 +298,8 @@
 
         </div>
 
-        <!-- Header 操作區 -->
-        <div class="flex flex-wrap items-center gap-3 md:pb-1 shrink-0">
+        <!-- 右側操作區 -->
+        <div class="archive-header-actions flex flex-wrap items-center gap-3 shrink-0">
 
           <button
             id="header-concept-button"

@@ -201,14 +201,14 @@
       padding: 0;
     }
 
+    /* 主標題固定放大至 110px */
     .archive-title {
       font-family: 'Noto Sans TC', sans-serif;
-      font-size: clamp(56px,6.5vw,96px);
+      font-size: 110px !important;
       line-height: 1.1;
       letter-spacing: -0.04em;
       font-weight: 700;
       color: #f3f4f6;
-
       margin: 0 !important;
       padding: 0 !important;
       border: 0 !important;
@@ -222,7 +222,6 @@
       line-height: 1.5;
       letter-spacing: 0.03em;
       color: #6b7280;
-
       margin: 8px 0 0 0 !important;
       padding: 0 !important;
       border: 0 !important;
@@ -272,7 +271,7 @@
 
     @media (max-width: 767px) {
       .archive-title {
-        font-size: clamp(48px,11vw,72px);
+        font-size: 64px !important;
       }
 
       .archive-subtitle {
@@ -316,7 +315,6 @@
 
       <div class="archive-header-main">
 
-        <!-- 左側標題區 -->
         <div class="archive-title-group">
 
           <div class="archive-eyebrow">
@@ -335,7 +333,6 @@
 
         </div>
 
-        <!-- 右側按鈕區 -->
         <div class="archive-header-actions">
 
           <button
@@ -657,6 +654,10 @@
 
     </main>
 
+    <!-- =========================================
+         作品理念
+         ========================================= -->
+
     <div
       id="concept-modal"
       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md modal-backdrop hidden-modal"
@@ -744,6 +745,10 @@
   </div>
 
   <script>
+    /* =========================================
+       個案資料
+       ========================================= */
+
     const PARTICIPANTS = [
       {
         id: "01",
@@ -797,6 +802,10 @@
 
     let breathTimer = null;
 
+    /* =========================================
+       作品理念
+       ========================================= */
+
     function openConceptModal() {
       const modal = document.getElementById('concept-modal');
       modal.classList.remove('hidden-modal');
@@ -817,6 +826,10 @@
         }
       }
     );
+
+    /* =========================================
+       產出數值
+       ========================================= */
 
     function startOutputFluctuationWithPause() {
       const headerOutputEl =
@@ -866,6 +879,10 @@
       setInterval(updateCounter, 80);
     }
 
+    /* =========================================
+       呼吸計數
+       ========================================= */
+
     function calculateLifetimeBreaths(birthDateStr) {
       const birthDate = new Date(birthDateStr);
       const now = new Date();
@@ -892,6 +909,10 @@
         counterEl.innerText = currentBreaths.toLocaleString();
       }, 4000);
     }
+
+    /* =========================================
+       圖片對比
+       ========================================= */
 
     function updateImgDimensions() {
       const sliderContainer =
@@ -956,6 +977,10 @@
 
       updateImgDimensions();
     }
+
+    /* =========================================
+       首頁卡片
+       ========================================= */
 
     function renderPortalCards() {
       const container =
@@ -1056,6 +1081,10 @@
         `;
       }).join('');
     }
+
+    /* =========================================
+       頁面切換
+       ========================================= */
 
     function showPortal() {
       document.getElementById('portal-view')
@@ -1161,6 +1190,10 @@
 
       setTimeout(updateImgDimensions, 60);
     }
+
+    /* =========================================
+       初始化
+       ========================================= */
 
     window.addEventListener('DOMContentLoaded', () => {
       renderPortalCards();

@@ -187,7 +187,7 @@
           <!-- 放大「理想狀態」標題：最大 112px -->
           <h1
             class="font-bold leading-none tracking-[-0.055em] text-gray-100"
-            style="font-size: clamp(64px, 8vw, 112px);"
+            style="font-size: clamp(48px, 6vw, 88px);";"
           >
             理想狀態
           </h1>

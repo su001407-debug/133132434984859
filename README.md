@@ -55,11 +55,7 @@ body {
   box-shadow: 0 0 16px rgba(255,255,255,.3);
 }
 
-/* =========================================
-   個案按鈕
-   電腦：白底，滑鼠移入卡片變螢光綠
-   手機：始終螢光綠
-   ========================================= */
+/* 個案按鈕 */
 
 .btn-neon {
   background: #ffffff;
@@ -86,6 +82,33 @@ body {
     background: #39ff14;
     color: #000000;
     box-shadow: none;
+  }
+}
+
+/* CASE 標籤文字顏色 */
+
+.case-label {
+  color: #ffffff;
+  transition:
+    color .25s ease,
+    background-color .3s ease,
+    backdrop-filter .3s ease;
+}
+
+@media (hover: hover) {
+  .case-label {
+    color: #10b981;
+  }
+
+  .glass-card:hover .case-label {
+    color: #ffffff;
+  }
+}
+
+@media (hover: none) {
+  .case-label,
+  .glass-card:hover .case-label {
+    color: #ffffff;
   }
 }
 
@@ -199,9 +222,7 @@ body {
   opacity: 1;
 }
 
-/* =========================================
-   HEADER
-   ========================================= */
+/* HEADER */
 
 .archive-header-main {
   display: flex;
@@ -280,10 +301,7 @@ body {
   white-space: nowrap;
 }
 
-/* =========================================
-   作品理念關閉按鈕
-   電腦與手機皆置中、白底黑字
-   ========================================= */
+/* 作品理念關閉按鈕 */
 
 .concept-modal-footer {
   display: flex !important;
@@ -1008,7 +1026,7 @@ function renderPortalCards() {
 
           <div class="absolute top-3 left-3 pointer-events-none z-30">
 
-            <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/70 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block transition-all duration-300 group-hover:bg-transparent group-hover:backdrop-blur-none group-hover:shadow-none mobile-auto-bg-fade">
+            <span class="case-label text-xs font-mono tracking-wider font-bold bg-black/70 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block transition-all duration-300 group-hover:bg-transparent group-hover:backdrop-blur-none group-hover:shadow-none mobile-auto-bg-fade">
               CASE #${p.id}
             </span>
 

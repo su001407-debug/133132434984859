@@ -35,7 +35,21 @@
       box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.9), 0 0 24px 0 rgba(16, 185, 129, 0.08);
     }
 
-    /* 螢光綠首頁按鈕樣式 */
+    /* 白色作品理念按鈕樣式 */
+    .btn-white {
+      background-color: #ffffff;
+      color: #000000;
+      font-weight: 700;
+      border: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-white:hover {
+      background-color: #e5e7eb;
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.3);
+    }
+
+    /* 螢光綠卡片按鈕樣式 */
     .btn-neon {
       background-color: #39FF14;
       color: #000000;
@@ -107,6 +121,31 @@
     #comparison-slider {
       touch-action: none;
     }
+
+    /* Modal 彈出與縮放動畫 */
+    .modal-backdrop {
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-backdrop.hidden-modal {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .modal-backdrop.active-modal {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-backdrop.hidden-modal .modal-content {
+      transform: scale(0.94) translateY(12px);
+      opacity: 0;
+    }
+    .modal-backdrop.active-modal .modal-content {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
   </style>
 </head>
 <body class="bg-grid-dark min-h-screen text-gray-300 relative selection:bg-emerald-500 selection:text-black">
@@ -115,7 +154,7 @@
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
 
-    <!-- Header 頂部欄位 -->
+    <!-- Header 頂部欄位（作品理念按鈕改為白色） -->
     <header class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-6 mb-10 gap-4">
       <div>
         <div class="flex items-center space-x-2 text-xs tracking-widest text-emerald-400 font-mono mb-1">
@@ -129,8 +168,8 @@
       </div>
 
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
-        <!-- 作品理念按鈕：螢光綠樣式 -->
-        <button onclick="openConceptModal()" class="btn-neon inline-flex items-center justify-center space-x-2 text-xs px-4 py-2.5 rounded shadow-lg font-mono">
+        <!-- 作品理念按鈕：白色極簡樣式 -->
+        <button onclick="openConceptModal()" class="btn-white inline-flex items-center justify-center space-x-2 text-xs px-4 py-2.5 rounded shadow-lg font-mono">
           <span>ⓘ</span>
           <span>作品理念 (CONCEPT)</span>
         </button>
@@ -183,7 +222,7 @@
 
           <!-- 說明文字緊貼橫線之上 -->
           <p class="text-[10px] font-mono text-gray-400 tracking-wide pb-1">
-            [SYSTEM NOTE] 個人特徵（髮型/皮肉）已於代理化過程中剝離，僅保留骨架結構與氣動呼吸腔體。
+            [SYSTEM NOTE] 個人特徵（髮型/皮肉）已於代理化過程中剝離。
           </p>
         </div>
 
@@ -291,11 +330,13 @@
       </article>
     </main>
 
-    <!-- 3. 作品理念 彈出視窗（創作者「我」第一人稱視角） -->
-    <div id="concept-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
-      <div class="bg-gray-950 max-w-2xl w-full max-h-[85vh] rounded-xl border border-gray-800/80 p-6 md:p-8 overflow-y-auto space-y-6 text-sm relative shadow-2xl">
+    <!-- 3. 作品理念 彈出視窗（無白框、純深色氣氛、動態淡入淡出縮放動畫） -->
+    <div id="concept-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md modal-backdrop hidden-modal">
+      
+      <!-- 視窗本體：完全無白框，極簡深色內嵌邊界 -->
+      <div class="bg-[#0b0d10] max-w-2xl w-full max-h-[85vh] rounded-xl border border-gray-900/90 p-6 md:p-8 overflow-y-auto space-y-6 text-sm relative shadow-2xl modal-content">
         
-        <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+        <div class="flex justify-between items-center border-b border-gray-800/80 pb-4">
           <div>
             <span class="text-[10px] font-mono text-emerald-500 tracking-widest block">CURATORIAL STATEMENT</span>
             <h2 class="text-xl font-bold text-white font-mono">《理想狀態》作品理念</h2>
@@ -322,15 +363,15 @@
           <section class="space-y-1.5">
             <h3 class="text-emerald-500 font-mono font-bold text-xs">03. 氣動代理與無結果的過程</h3>
             <p class="text-gray-400">
-              作品由四件單獨固定於牆上的頭部雕塑組成。並將參與者的個人特徵（皮肉與頭髮）剝離，僅留存五官結構。為了將「呼吸」視覺化，我採用自製氣動裝置搭配塑膠薄膜包裹雕塑，利用裝置抽氣與放氣的特性，模擬人頭套著塑膠袋呼吸時的膨脹與收縮，進而製造雕塑正在呼吸的錯覺。我希望讓這件作品暫時代替我停止生產，也邀請觀者一同觀看一個沒有結果的過程。在這段只剩下呼吸與時間流動的狀態中，重新思考一個沒有產出的行為，是否仍然具有存在的價值。
+             作品由四件單獨固定於牆上的頭部雕塑組成，並將參與者的個人特徵（皮肉與頭髮）剝離，僅留存五官結構。為了將「呼吸」視覺化，我採用自製氣動裝置搭配塑膠薄膜包裹雕塑，利用裝置抽氣與放氣的特性，模擬人頭套著塑膠袋呼吸時的膨脹與收縮，進而製造雕塑正在呼吸的錯覺。我希望讓這件作品暫時代替我停止生產，也邀請觀者一同觀看一個沒有結果的過程。在這段只剩下呼吸與時間流動的狀態中，重新思考一個沒有產出的行為，是否仍然具有存在的價值。
             </p>
           </section>
 
         </div>
 
         <!-- 一般深灰色關閉按鈕 -->
-        <div class="border-t border-gray-800 pt-4 flex justify-end">
-          <button onclick="closeConceptModal()" class="px-5 py-2 text-xs font-mono text-gray-300 hover:text-white bg-gray-900 hover:bg-gray-800 rounded border border-gray-700">
+        <div class="border-t border-gray-800/80 pt-4 flex justify-end">
+          <button onclick="closeConceptModal()" class="px-5 py-2 text-xs font-mono text-gray-300 hover:text-white bg-gray-900/90 hover:bg-gray-800 rounded border border-gray-700/80">
             關閉視窗 (CLOSE)
           </button>
         </div>
@@ -400,13 +441,17 @@
 
     let breathTimer = null;
 
-    // 作品理念 Modal 開關控制
+    // 作品理念 Modal 開關與平滑過渡動畫控制
     function openConceptModal() {
-      document.getElementById('concept-modal').classList.remove('hidden');
+      const modal = document.getElementById('concept-modal');
+      modal.classList.remove('hidden-modal');
+      modal.classList.add('active-modal');
     }
 
     function closeConceptModal() {
-      document.getElementById('concept-modal').classList.add('hidden');
+      const modal = document.getElementById('concept-modal');
+      modal.classList.remove('active-modal');
+      modal.classList.add('hidden-modal');
     }
 
     // 點擊 Modal 背景關閉視窗

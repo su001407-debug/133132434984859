@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -183,21 +184,29 @@
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-7">
         <div class="min-w-0">
           <div class="text-[10px] font-mono text-gray-500 tracking-[0.25em] mb-3">IDEAL STATE — ARCHIVE PORTAL</div>
-          <h1 class="text-[clamp(2.5rem,6vw,4.5rem)] leading-none font-bold tracking-[-0.055em] text-gray-100">
+
+          <!-- 修改：放大「理想狀態」標題 -->
+          <h1 class="text-[clamp(3rem,7.5vw,5.5rem)] leading-none font-bold tracking-[-0.055em] text-gray-100">
             理想狀態
           </h1>
+
           <p class="text-xs text-gray-500 tracking-[0.06em] mt-5 leading-relaxed">當代個人怠工檔案與系統診斷報告 <span class="text-gray-600">/</span> Archive Portal</p>
         </div>
 
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 md:pb-1 shrink-0">
-          <button onclick="openConceptModal()" class="btn-white inline-flex items-center justify-center space-x-2 text-xs px-5 py-3 rounded-sm shadow-sm font-mono">
+
+          <!-- 作品理念按鈕：rounded-lg 圓角 -->
+          <button onclick="openConceptModal()" class="btn-white inline-flex items-center justify-center space-x-2 text-xs px-5 py-3 rounded-lg shadow-sm font-mono">
             <span>ⓘ</span>
             <span>作品理念 (CONCEPT)</span>
           </button>
-          <div id="header-output-box" class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-3 rounded-sm border border-gray-700/80 flex justify-between sm:block">
+
+          <!-- VALUABLE OUTPUT：rounded-lg 圓角 -->
+          <div id="header-output-box" class="text-right font-mono text-xs text-gray-400 bg-gray-950/80 px-4 py-3 rounded-lg border border-gray-700/80 flex justify-between sm:block">
             <span class="text-gray-500 mr-2">VALUABLE OUTPUT:</span>
             <span id="header-output-counter" class="text-emerald-400 font-bold">0.000 KG/H</span>
           </div>
+
         </div>
       </div>
     </header>

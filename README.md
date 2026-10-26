@@ -57,14 +57,14 @@ body {
 
 /* =========================================
    個案診斷按鈕
-   電腦預設：黑底白字
+   電腦預設：黑底綠字
    電腦滑鼠移入：螢光綠底黑字
    手機：固定螢光綠底黑字
    ========================================= */
 
 .btn-neon {
   background: #000000;
-  color: #ffffff;
+  color: #39ff14;
   font-weight: 800;
   border: none;
   transition:
@@ -91,31 +91,11 @@ body {
   }
 }
 
-/* CASE 標籤文字顏色 */
+/* CASE 標籤：固定白色 */
 
-.case-label {
+.case-label,
+.glass-card:hover .case-label {
   color: #ffffff;
-  transition:
-    color .25s ease,
-    background-color .3s ease,
-    backdrop-filter .3s ease;
-}
-
-@media (hover: hover) {
-  .case-label {
-    color: #10b981;
-  }
-
-  .glass-card:hover .case-label {
-    color: #ffffff;
-  }
-}
-
-@media (hover: none) {
-  .case-label,
-  .glass-card:hover .case-label {
-    color: #ffffff;
-  }
 }
 
 .badge-emerald-active {

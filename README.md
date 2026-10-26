@@ -203,12 +203,11 @@
 
     .archive-title {
       font-family: 'Noto Sans TC', sans-serif;
-      font-size: clamp(56px,6.5vw,96px);
+      font-size: 100px !important;
       line-height: 1.1;
       letter-spacing: -0.04em;
       font-weight: 700;
       color: #f3f4f6;
-
       margin: 0 !important;
       padding: 0 !important;
       border: 0 !important;
@@ -222,7 +221,6 @@
       line-height: 1.5;
       letter-spacing: 0.03em;
       color: #6b7280;
-
       margin: 8px 0 0 0 !important;
       padding: 0 !important;
       border: 0 !important;
@@ -258,6 +256,20 @@
       white-space: nowrap;
     }
 
+    /* 關閉視窗按鈕：白底黑字 */
+    #concept-close-button {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      border: 1px solid #ffffff !important;
+      font-weight: 700;
+    }
+
+    #concept-close-button:hover {
+      background-color: #e5e7eb !important;
+      border-color: #e5e7eb !important;
+      color: #000000 !important;
+    }
+
     @media (min-width: 768px) {
       .archive-header-main {
         flex-direction: row;
@@ -272,7 +284,7 @@
 
     @media (max-width: 767px) {
       .archive-title {
-        font-size: clamp(48px,11vw,72px);
+        font-size: 64px !important;
       }
 
       .archive-subtitle {
@@ -316,7 +328,6 @@
 
       <div class="archive-header-main">
 
-        <!-- 左側標題區 -->
         <div class="archive-title-group">
 
           <div class="archive-eyebrow">
@@ -335,7 +346,6 @@
 
         </div>
 
-        <!-- 右側按鈕區 -->
         <div class="archive-header-actions">
 
           <button
@@ -657,6 +667,10 @@
 
     </main>
 
+    <!-- =========================================
+         作品理念
+         ========================================= -->
+
     <div
       id="concept-modal"
       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md modal-backdrop hidden-modal"
@@ -718,9 +732,11 @@
 
         <div class="border-t border-gray-800/60 pt-4 flex justify-end">
 
+          <!-- 唯一修改：關閉按鈕改為白底黑字 -->
           <button
+            id="concept-close-button"
             onclick="closeConceptModal()"
-            class="px-5 py-2 text-xs font-mono text-gray-200 hover:text-white bg-gray-900/90 hover:bg-gray-800 rounded border border-white/80 shadow-sm transition-all"
+            class="px-5 py-2 text-xs font-mono bg-white text-black font-bold hover:bg-gray-200 rounded border border-white shadow-sm transition-all"
           >
             關閉視窗 (CLOSE)
           </button>
@@ -744,6 +760,10 @@
   </div>
 
   <script>
+    /* =========================================
+       個案資料
+       ========================================= */
+
     const PARTICIPANTS = [
       {
         id: "01",
@@ -797,6 +817,10 @@
 
     let breathTimer = null;
 
+    /* =========================================
+       作品理念
+       ========================================= */
+
     function openConceptModal() {
       const modal = document.getElementById('concept-modal');
       modal.classList.remove('hidden-modal');
@@ -817,6 +841,10 @@
         }
       }
     );
+
+    /* =========================================
+       產出數值
+       ========================================= */
 
     function startOutputFluctuationWithPause() {
       const headerOutputEl =
@@ -866,6 +894,10 @@
       setInterval(updateCounter, 80);
     }
 
+    /* =========================================
+       呼吸計數
+       ========================================= */
+
     function calculateLifetimeBreaths(birthDateStr) {
       const birthDate = new Date(birthDateStr);
       const now = new Date();
@@ -892,6 +924,10 @@
         counterEl.innerText = currentBreaths.toLocaleString();
       }, 4000);
     }
+
+    /* =========================================
+       圖片對比
+       ========================================= */
 
     function updateImgDimensions() {
       const sliderContainer =
@@ -956,6 +992,10 @@
 
       updateImgDimensions();
     }
+
+    /* =========================================
+       首頁卡片
+       ========================================= */
 
     function renderPortalCards() {
       const container =
@@ -1056,6 +1096,10 @@
         `;
       }).join('');
     }
+
+    /* =========================================
+       頁面切換
+       ========================================= */
 
     function showPortal() {
       document.getElementById('portal-view')
@@ -1161,6 +1205,10 @@
 
       setTimeout(updateImgDimensions, 60);
     }
+
+    /* =========================================
+       初始化
+       ========================================= */
 
     window.addEventListener('DOMContentLoaded', () => {
       renderPortalCards();

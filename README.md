@@ -201,9 +201,10 @@
       padding: 0;
     }
 
+    /* 主標題固定為 80px */
     .archive-title {
       font-family: 'Noto Sans TC', sans-serif;
-      font-size: 100px !important;
+      font-size: 80px !important;
       line-height: 1.1;
       letter-spacing: -0.04em;
       font-weight: 700;
@@ -732,7 +733,6 @@
 
         <div class="border-t border-gray-800/60 pt-4 flex justify-end">
 
-          <!-- 唯一修改：關閉按鈕改為白底黑字 -->
           <button
             id="concept-close-button"
             onclick="closeConceptModal()"

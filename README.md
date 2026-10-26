@@ -55,47 +55,17 @@ body {
   box-shadow: 0 0 16px rgba(255,255,255,.3);
 }
 
-/* =========================================
-   個案診斷按鈕
-   電腦預設：黑底、一般綠字 #10b981
-   電腦滑鼠移入：螢光綠底、黑字 #39ff14
-   手機：固定螢光綠底、黑字
-   ========================================= */
-
 .btn-neon {
-  background: #000000;
-  color: #10b981;
+  background: #39ff14;
+  color: #000;
   font-weight: 800;
   border: none;
-  transition:
-    background-color .25s ease,
-    color .25s ease,
-    box-shadow .25s ease;
+  transition: all .2s ease;
 }
 
-@media (hover: hover) {
-  .glass-card:hover .btn-neon {
-    background: #39ff14;
-    color: #000000;
-    box-shadow: 0 0 20px rgba(57,255,20,.45);
-  }
-}
-
-@media (hover: none) {
-  .btn-neon,
-  .btn-neon:hover,
-  .glass-card:hover .btn-neon {
-    background: #39ff14;
-    color: #000000;
-    box-shadow: none;
-  }
-}
-
-/* CASE 標籤：固定白色 */
-
-.case-label,
-.glass-card:hover .case-label {
-  color: #ffffff;
+.btn-neon:hover {
+  background: #55ff33;
+  box-shadow: 0 0 20px rgba(57,255,20,.6);
 }
 
 .badge-emerald-active {
@@ -130,7 +100,6 @@ body {
     color: #10b981;
     opacity: 1;
   }
-
   50% {
     color: #6ee7b7;
     opacity: .7;
@@ -152,12 +121,10 @@ body {
     background-color: rgba(0,0,0,.7);
     backdrop-filter: blur(6px);
   }
-
   55%,95% {
     background-color: transparent;
     backdrop-filter: none;
   }
-
   100% {
     background-color: rgba(0,0,0,.7);
     backdrop-filter: blur(6px);
@@ -287,7 +254,7 @@ body {
   white-space: nowrap;
 }
 
-/* 作品理念關閉按鈕 */
+/* 關閉視窗：電腦與手機都水平置中 */
 
 .concept-modal-footer {
   display: flex !important;
@@ -1012,7 +979,7 @@ function renderPortalCards() {
 
           <div class="absolute top-3 left-3 pointer-events-none z-30">
 
-            <span class="case-label text-xs font-mono tracking-wider font-bold bg-black/70 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block transition-all duration-300 group-hover:bg-transparent group-hover:backdrop-blur-none group-hover:shadow-none mobile-auto-bg-fade">
+            <span class="text-xs font-mono text-white tracking-wider font-bold bg-black/70 backdrop-blur-md px-2.5 py-1 rounded shadow-lg inline-block transition-all duration-300 group-hover:bg-transparent group-hover:backdrop-blur-none group-hover:shadow-none mobile-auto-bg-fade">
               CASE #${p.id}
             </span>
 

@@ -154,7 +154,7 @@
 
   <div class="max-w-5xl mx-auto px-4 py-8 md:py-14 relative z-10">
 
-    <!-- Header 頂部欄位（作品理念按鈕改為白色） -->
+    <!-- Header 頂部欄位（作品理念按鈕為白色） -->
     <header class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-800 pb-6 mb-10 gap-4">
       <div>
         <div class="flex items-center space-x-2 text-xs tracking-widest text-emerald-400 font-mono mb-1">
@@ -330,18 +330,15 @@
       </article>
     </main>
 
-    <!-- 3. 作品理念 彈出視窗（完全移除白框、極簡純黑氣氛、淡入/縮放過渡動畫） -->
+    <!-- 3. 作品理念 彈出視窗（無邊框視窗、刪除右上角叉叉、關閉按鈕加白框） -->
     <div id="concept-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md modal-backdrop hidden-modal">
       
-      <!-- 視窗本體：使用 border-0 強制消除任何邊框 -->
+      <!-- 視窗本體：使用 border-0 強制消除無效外框 -->
       <div class="bg-[#0b0d10] max-w-2xl w-full max-h-[85vh] rounded-xl border-0 p-6 md:p-8 overflow-y-auto space-y-6 text-sm relative shadow-2xl modal-content">
         
-        <div class="flex justify-between items-center border-b border-gray-800/60 pb-4">
-          <div>
-            <span class="text-[10px] font-mono text-emerald-500 tracking-widest block">CURATORIAL STATEMENT</span>
-            <h2 class="text-xl font-bold text-white font-mono">《理想狀態》作品理念</h2>
-          </div>
-          <button onclick="closeConceptModal()" class="text-gray-400 hover:text-white font-mono text-lg px-2">✕</button>
+        <div class="border-b border-gray-800/60 pb-4">
+          <span class="text-[10px] font-mono text-emerald-500 tracking-widest block">CURATORIAL STATEMENT</span>
+          <h2 class="text-xl font-bold text-white font-mono">《理想狀態》作品理念</h2>
         </div>
 
         <div class="space-y-5 text-gray-300 font-sans leading-relaxed text-xs md:text-sm">
@@ -369,9 +366,9 @@
 
         </div>
 
-        <!-- 關閉按鈕：極簡深灰風格（完全無白框） -->
+        <!-- 關閉按鈕：具備精緻白框樣式 -->
         <div class="border-t border-gray-800/60 pt-4 flex justify-end">
-          <button onclick="closeConceptModal()" class="px-5 py-2 text-xs font-mono text-gray-300 hover:text-white bg-gray-900 hover:bg-gray-800 rounded border-0 transition-colors">
+          <button onclick="closeConceptModal()" class="px-5 py-2 text-xs font-mono text-gray-200 hover:text-white bg-gray-900/90 hover:bg-gray-800 rounded border border-white/80 shadow-sm transition-all">
             關閉視窗 (CLOSE)
           </button>
         </div>

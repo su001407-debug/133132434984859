@@ -55,17 +55,38 @@ body {
   box-shadow: 0 0 16px rgba(255,255,255,.3);
 }
 
+/* =========================================
+   個案按鈕
+   電腦：白底，滑鼠移入卡片變螢光綠
+   手機：始終螢光綠
+   ========================================= */
+
 .btn-neon {
-  background: #39ff14;
-  color: #000;
+  background: #ffffff;
+  color: #000000;
   font-weight: 800;
   border: none;
-  transition: all .2s ease;
+  transition:
+    background-color .25s ease,
+    box-shadow .25s ease;
 }
 
-.btn-neon:hover {
-  background: #55ff33;
-  box-shadow: 0 0 20px rgba(57,255,20,.6);
+@media (hover: hover) {
+  .glass-card:hover .btn-neon {
+    background: #39ff14;
+    color: #000000;
+    box-shadow: 0 0 20px rgba(57,255,20,.45);
+  }
+}
+
+@media (hover: none) {
+  .btn-neon,
+  .btn-neon:hover,
+  .glass-card:hover .btn-neon {
+    background: #39ff14;
+    color: #000000;
+    box-shadow: none;
+  }
 }
 
 .badge-emerald-active {
@@ -100,6 +121,7 @@ body {
     color: #10b981;
     opacity: 1;
   }
+
   50% {
     color: #6ee7b7;
     opacity: .7;
@@ -121,10 +143,12 @@ body {
     background-color: rgba(0,0,0,.7);
     backdrop-filter: blur(6px);
   }
+
   55%,95% {
     background-color: transparent;
     backdrop-filter: none;
   }
+
   100% {
     background-color: rgba(0,0,0,.7);
     backdrop-filter: blur(6px);
@@ -175,7 +199,9 @@ body {
   opacity: 1;
 }
 
-/* HEADER */
+/* =========================================
+   HEADER
+   ========================================= */
 
 .archive-header-main {
   display: flex;
@@ -254,7 +280,10 @@ body {
   white-space: nowrap;
 }
 
-/* 關閉視窗：電腦與手機都水平置中 */
+/* =========================================
+   作品理念關閉按鈕
+   電腦與手機皆置中、白底黑字
+   ========================================= */
 
 .concept-modal-footer {
   display: flex !important;

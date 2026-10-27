@@ -769,7 +769,7 @@ const PARTICIPANTS = [
     anxiety: "87.4% (極高)",
     birthDate: "2005-02-26",
     imageUrl: "https://cdn.phototourl.com/member/2026-10-25-96d3b302-64c7-4d0a-92c3-dae869f734ea.jpg",
-    deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-27-536c63ce-ed6e-4e0f-9c4e-7828e377548b.jpg",
+    deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-27-116824ad-2295-48ab-bfc1-92ff1656d47d.jpg",
     audioUrl: "breath01.mp3",
     statement: "我發現自己根本無法忍受純粹的放空。只要一停下來，那種『時間正被浪費』的罪惡感就會把我吞噬。我做這個替身，不是為了讓自己舒服地去休息，而是因為我停不下來——我需要一個實體掛在那裡，替我承擔什麼都不做、只剩下呼吸的死寂。"
   },

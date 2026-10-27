@@ -793,7 +793,7 @@ const PARTICIPANTS = [
     anxiety: "79.8% (高)",
     birthDate: "2005-06-09",
     imageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg",
-    deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-25-b70cd799-0bbf-4737-a890-d4c0962fe741.jpg",
+    deviceImageUrl: "https://cdn.phototourl.com/member/2026-10-27-92008899-f82e-4ff8-a8f9-3b39851a685a.jpg",
     audioUrl: "breath03.mp3",
     statement: "休假對我來說不是放鬆，而是一場審判。躺在床上滑手機的每一分鐘，都在盤算著自己少做了多少事。如果一定要有人在那裡放空，那就讓這顆塑膠薄膜包覆的人頭替我坐牢吧。"
   },

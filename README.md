@@ -361,7 +361,7 @@ body {
         <h1 class="archive-title">理想狀態</h1>
 
         <p class="archive-subtitle">
-          當代個人怠工檔案與系統診斷報告
+          當代個人檔案與系統診斷報告
           <span class="text-gray-600">/</span>
           Archive Portal
         </p>
